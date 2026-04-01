@@ -1,0 +1,11 @@
+node_modules/
+.cache/
+*.exe
+*.zip
+*.zip.downloading
+.env
+dist/
+build/
+.git/
+*.lnk
+desktop.ini

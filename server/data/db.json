@@ -1,0 +1,370 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "$2a$10$uJ.KTRR3W4PT.aHq9Hl0UOmLVQcwuOkA2wyFt07brsdPexqHPUgky",
+    "role": "operator",
+    "credits": 0
+  },
+  "sensors": [
+    {
+      "id": "S01",
+      "lat": 15,
+      "lng": -40,
+      "pollution": 30,
+      "sst": 28.5,
+      "benthic": 3.2,
+      "pressure": 4100
+    },
+    {
+      "id": "S02",
+      "lat": 12.5,
+      "lng": -50.2,
+      "pollution": 80,
+      "sst": 31,
+      "benthic": 4,
+      "pressure": 3800
+    },
+    {
+      "id": "S03",
+      "lat": 5,
+      "lng": -60,
+      "pollution": 50,
+      "sst": 29.2,
+      "benthic": 2.8,
+      "pressure": 4500
+    },
+    {
+      "id": "S04",
+      "lat": -10,
+      "lng": -30,
+      "pollution": 20,
+      "sst": 27.8,
+      "benthic": 3.5,
+      "pressure": 4000
+    },
+    {
+      "id": "S05",
+      "lat": -15,
+      "lng": -10,
+      "pollution": 90,
+      "sst": 24.1,
+      "benthic": 2.1,
+      "pressure": 5200
+    },
+    {
+      "id": "S06",
+      "lat": 20,
+      "lng": 90,
+      "pollution": 40,
+      "sst": 26.5,
+      "benthic": 3,
+      "pressure": 4300
+    },
+    {
+      "id": "S07",
+      "lat": -5,
+      "lng": 120,
+      "pollution": 70,
+      "sst": 30.5,
+      "benthic": 4.1,
+      "pressure": 3600
+    },
+    {
+      "id": "S08",
+      "lat": 30,
+      "lng": -140,
+      "pollution": 95,
+      "sst": 22,
+      "benthic": 1.8,
+      "pressure": 6000
+    },
+    {
+      "id": "S09",
+      "lat": -35,
+      "lng": -75,
+      "pollution": 15,
+      "sst": 18.5,
+      "benthic": 2.5,
+      "pressure": 4800
+    },
+    {
+      "id": "S10",
+      "lat": 45,
+      "lng": -30,
+      "pollution": 25,
+      "sst": 16.2,
+      "benthic": 3.8,
+      "pressure": 3900
+    },
+    {
+      "id": "S11",
+      "lat": -22,
+      "lng": 55,
+      "pollution": 60,
+      "sst": 27,
+      "benthic": 3.3,
+      "pressure": 4200
+    },
+    {
+      "id": "S12",
+      "lat": 8,
+      "lng": 78,
+      "pollution": 45,
+      "sst": 29.8,
+      "benthic": 3.9,
+      "pressure": 3700
+    },
+    {
+      "id": "S13",
+      "lat": -42,
+      "lng": 170,
+      "pollution": 10,
+      "sst": 14,
+      "benthic": 2,
+      "pressure": 5500
+    },
+    {
+      "id": "S14",
+      "lat": 55,
+      "lng": -5,
+      "pollution": 35,
+      "sst": 12.5,
+      "benthic": 4.2,
+      "pressure": 3500
+    },
+    {
+      "id": "S15",
+      "lat": -8,
+      "lng": -35,
+      "pollution": 55,
+      "sst": 28,
+      "benthic": 3.1,
+      "pressure": 4400
+    },
+    {
+      "id": "S16",
+      "lat": 38,
+      "lng": 140,
+      "pollution": 42,
+      "sst": 20.5,
+      "benthic": 3.6,
+      "pressure": 4050
+    }
+  ],
+  "vessels": [
+    {
+      "id": "V1",
+      "name": "Oceanic Spirit",
+      "type": "Cargo",
+      "lat": 22,
+      "lng": -40,
+      "heading": 90,
+      "speed": 14.5,
+      "isDark": false
+    },
+    {
+      "id": "V2",
+      "name": "Unknown",
+      "type": "Fishing",
+      "lat": 10.5,
+      "lng": -55,
+      "heading": 210,
+      "speed": 8,
+      "isDark": true
+    },
+    {
+      "id": "V3",
+      "name": "Sea Explorer",
+      "type": "Research",
+      "lat": -5,
+      "lng": -105,
+      "heading": 180,
+      "speed": 11.2,
+      "isDark": false
+    },
+    {
+      "id": "V4",
+      "name": "Unknown",
+      "type": "Cargo",
+      "lat": 1.5,
+      "lng": 45,
+      "heading": 45,
+      "speed": 16,
+      "isDark": true
+    },
+    {
+      "id": "V5",
+      "name": "Blue Horizon",
+      "type": "Tanker",
+      "lat": -20,
+      "lng": 60,
+      "heading": 120,
+      "speed": 12.8,
+      "isDark": false
+    },
+    {
+      "id": "V6",
+      "name": "Waste Collector 01",
+      "type": "Waste",
+      "lat": 28.5,
+      "lng": -138.5,
+      "heading": 240,
+      "speed": 6,
+      "isDark": false
+    },
+    {
+      "id": "V7",
+      "name": "Waste Collector 02",
+      "type": "Waste",
+      "lat": 2,
+      "lng": 7,
+      "heading": 45,
+      "speed": 7.5,
+      "isDark": false
+    }
+  ],
+  "threats": [
+    {
+      "id": "T1",
+      "type": "Chemical Spill",
+      "severity": "Critical",
+      "description": "High toxicity readings in Gulf of Guinea.",
+      "lat": 0.5,
+      "lng": 5,
+      "timestamp": "2026-04-01T08:12:00Z"
+    },
+    {
+      "id": "T2",
+      "type": "Coral Bleaching",
+      "severity": "Critical",
+      "description": "SST exceeded safe parameters near Great Barrier Reef for 14 hours.",
+      "lat": -16.5,
+      "lng": 145.5,
+      "timestamp": "2026-04-01T06:45:00Z"
+    },
+    {
+      "id": "T3",
+      "type": "Dark Vessel Activity",
+      "severity": "Moderate",
+      "description": "Unidentified vessel disabled AIS transponder.",
+      "lat": 5.2,
+      "lng": -50,
+      "timestamp": "2026-04-01T09:30:00Z"
+    },
+    {
+      "id": "T4",
+      "type": "Microplastic Gyre",
+      "severity": "Critical",
+      "description": "Dense garbage accumulation intersecting Pacific current.",
+      "lat": 30,
+      "lng": -140,
+      "timestamp": "2026-04-01T03:15:00Z"
+    },
+    {
+      "id": "T5",
+      "type": "Illegal Sonar Sweep",
+      "severity": "Moderate",
+      "description": "High-intensity military acoustic signatures detected.",
+      "lat": -45,
+      "lng": -60,
+      "timestamp": "2026-03-31T22:00:00Z"
+    },
+    {
+      "id": "T6",
+      "type": "Hypoxic Dead Zone",
+      "severity": "Critical",
+      "description": "Oxygen saturation critically low at benthic layer.",
+      "lat": 28,
+      "lng": -90,
+      "timestamp": "2026-04-01T01:20:00Z"
+    }
+  ],
+  "history": {
+    "2015": {
+      "plasticDensity": 12,
+      "avgSST": 25.8,
+      "threatCount": 8
+    },
+    "2016": {
+      "plasticDensity": 18,
+      "avgSST": 26,
+      "threatCount": 12
+    },
+    "2017": {
+      "plasticDensity": 24,
+      "avgSST": 26.1,
+      "threatCount": 15
+    },
+    "2018": {
+      "plasticDensity": 31,
+      "avgSST": 26.3,
+      "threatCount": 19
+    },
+    "2019": {
+      "plasticDensity": 40,
+      "avgSST": 26.6,
+      "threatCount": 24
+    },
+    "2020": {
+      "plasticDensity": 48,
+      "avgSST": 26.8,
+      "threatCount": 28
+    },
+    "2021": {
+      "plasticDensity": 55,
+      "avgSST": 27.1,
+      "threatCount": 35
+    },
+    "2022": {
+      "plasticDensity": 63,
+      "avgSST": 27.3,
+      "threatCount": 42
+    },
+    "2023": {
+      "plasticDensity": 70,
+      "avgSST": 27.6,
+      "threatCount": 51
+    },
+    "2024": {
+      "plasticDensity": 76,
+      "avgSST": 27.9,
+      "threatCount": 60
+    },
+    "2025": {
+      "plasticDensity": 82,
+      "avgSST": 28.2,
+      "threatCount": 72
+    },
+    "2026": {
+      "plasticDensity": 88,
+      "avgSST": 28.5,
+      "threatCount": 84
+    }
+  },
+  "reports": [
+    {
+      "id": "R1",
+      "title": "Gulf of Guinea Chemical Spill Analysis",
+      "date": "2026-03-28",
+      "size": "12 MB"
+    },
+    {
+      "id": "R2",
+      "title": "Q1 Coral Health Index Variance",
+      "date": "2026-03-15",
+      "size": "8 MB"
+    },
+    {
+      "id": "R3",
+      "title": "Illegal Sonar Sweep Detection Log",
+      "date": "2026-02-10",
+      "size": "3 MB"
+    },
+    {
+      "id": "R4",
+      "title": "Pacific Microplastic Gyre Assessment",
+      "date": "2026-01-20",
+      "size": "45 MB"
+    }
+  ]
+}

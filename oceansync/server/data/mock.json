@@ -1,0 +1,24 @@
+{
+  "dataPoints": [
+    { "lat": 15.0, "lng": -40.0, "pollutionLevel": 0.3, "temperature": 28.5 },
+    { "lat": 12.5, "lng": -50.2, "pollutionLevel": 0.8, "temperature": 31.0 },
+    { "lat": 5.0, "lng": -60.0, "pollutionLevel": 0.5, "temperature": 29.2 },
+    { "lat": -10.0, "lng": -30.0, "pollutionLevel": 0.2, "temperature": 27.8 },
+    { "lat": -15.0, "lng": -10.0, "pollutionLevel": 0.9, "temperature": 32.1 },
+    { "lat": 20.0, "lng": 90.0, "pollutionLevel": 0.4, "temperature": 26.5 },
+    { "lat": -5.0, "lng": 120.0, "pollutionLevel": 0.7, "temperature": 30.5 }
+  ],
+  "alerts": [
+    { "id": "A1", "type": "Coral Bleaching", "severity": "High", "message": "Severe bleaching risk near Great Barrier Reef", "lat": -16.5, "lng": 145.5 },
+    { "id": "A2", "type": "Dark Vessel Activity", "severity": "Medium", "message": "Unidentified vessel turning off AIS", "lat": 5.2, "lng": -50.0 },
+    { "id": "A3", "type": "Chemical Spill", "severity": "Critical", "message": "High pollution reading detected in Gulf of Guinea", "lat": 0.5, "lng": 5.0 },
+    { "id": "A4", "type": "Coral Bleaching", "severity": "Medium", "message": "Elevated temperatures in the Caribbean", "lat": 18.0, "lng": -75.0 }
+  ],
+  "vessels": [
+    { "id": "V1", "name": "Oceanic Spirit", "type": "Cargo", "lat": 22.0, "lng": -40.0, "heading": 90, "speed": 14.5, "isDark": false },
+    { "id": "V2", "name": "Unknown", "type": "Fishing", "lat": 10.5, "lng": -55.0, "heading": 210, "speed": 8.0, "isDark": true },
+    { "id": "V3", "name": "Sea Explorer", "type": "Research", "lat": -5.0, "lng": -105.0, "heading": 180, "speed": 11.2, "isDark": false },
+    { "id": "V4", "name": "Unknown", "type": "Cargo", "lat": 1.5, "lng": 45.0, "heading": 45, "speed": 16.0, "isDark": true },
+    { "id": "V5", "name": "Blue Horizon", "type": "Tanker", "lat": -20.0, "lng": 60.0, "heading": 120, "speed": 12.8, "isDark": false }
+  ]
+}

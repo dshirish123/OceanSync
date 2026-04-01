@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OceanSync | Marine Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#000;--panel:#0A0A0A;--panel-border:rgba(255,255,255,0.08);
+      --text:#F0F0F0;--text-muted:#888;--font-main:'Inter',-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;--blue:#0070F3;--red:#E00;
+      --orange:#F5A623;--green:#10B981;--shadow:0 4px 24px rgba(0,0,0,0.8);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-main);height:100vh;overflow:hidden;display:flex;font-size:14px;-webkit-font-smoothing:antialiased}
+    .glass{background:var(--panel);border:1px solid var(--panel-border);border-radius:8px;box-shadow:var(--shadow)}
+    .btn-primary{background:#fff;color:#000;padding:12px 24px;border:none;border-radius:6px;font-weight:500;font-family:var(--font-main);font-size:.95rem;cursor:pointer;transition:.2s}
+    .btn-primary:hover{background:#e2e2e2;transform:translateY(-1px)}
+    .btn-secondary{background:transparent;border:1px solid var(--panel-border);color:var(--text);padding:12px 24px;border-radius:6px;font-weight:500;cursor:pointer;transition:.2s}
+    .btn-secondary:hover{background:rgba(255,255,255,.05)}
+
+    /* LOGIN */
+    #login-gate{position:absolute;inset:0;z-index:99999;display:flex;background:var(--bg)}
+    .login-left{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-right:1px solid var(--panel-border)}
+    .login-left canvas{position:absolute;inset:0}
+    .login-right{width:450px;display:flex;flex-direction:column;justify-content:center;background:var(--bg)}
+    .login-box{padding:48px;display:flex;flex-direction:column;gap:16px}
+    .login-box h1{font-size:1.5rem;font-weight:600;letter-spacing:-.5px}
+    .login-hint{color:#555;font-size:.75rem;font-family:var(--font-mono);background:rgba(255,255,255,.03);padding:8px 12px;border-radius:6px;border:1px dashed rgba(255,255,255,.08)}
+    .login-input{background:#000;border:1px solid var(--panel-border);padding:14px;border-radius:6px;color:var(--text);font-family:var(--font-main);font-size:.95rem;outline:none;transition:.2s}
+    .login-input:focus{border-color:var(--blue)}
+    .login-error{color:var(--red);font-size:.85rem;display:none}
+    .btn-bio{background:linear-gradient(135deg,#0070F3,#00C6FF);color:#fff;border:none;padding:14px 24px;border-radius:6px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--font-main);font-size:.95rem}
+    .btn-bio:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,112,243,.4)}
+    .divider{display:flex;align-items:center;gap:12px;color:#444;font-size:.8rem}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--panel-border)}
+
+    /* APP SHELL */
+    #app-container{display:none;width:100vw;height:100vh;flex-direction:row}
+    .sidebar{width:260px;height:100%;display:flex;flex-direction:column;border-right:1px solid var(--panel-border);padding:24px 16px;background:var(--bg);z-index:100}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+    .brand-icon{width:28px;height:28px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#000;font-size:12px}
+    .brand h1{font-size:1.1rem;font-weight:600;letter-spacing:-.5px}
+    .nav-label{font-size:.7rem;font-weight:600;color:#444;text-transform:uppercase;letter-spacing:1px;margin:20px 0 8px 8px}
+    .nav-btn{width:100%;text-align:left;padding:10px 12px;background:transparent;border:none;border-radius:6px;color:var(--text-muted);font-family:var(--font-main);font-weight:500;font-size:.9rem;cursor:pointer;transition:.2s;margin-bottom:4px;display:flex;justify-content:space-between}
+    .nav-btn:hover{background:rgba(255,255,255,.04);color:var(--text)}
+    .nav-btn.active{background:rgba(255,255,255,.08);color:var(--text)}
+    .badge{background:rgba(255,255,255,.08);color:var(--text);padding:2px 6px;border-radius:4px;font-size:.75rem;font-family:var(--font-mono)}
+    .nav-bottom{margin-top:auto}
+    main{flex-grow:1;display:flex;flex-direction:column;overflow:hidden}
+    .top-header{height:64px;display:flex;justify-content:space-between;align-items:center;padding:0 32px;border-bottom:1px solid var(--panel-border);background:var(--bg);z-index:50;flex-shrink:0}
+    .dot-on{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}
+    .credits-badge{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--panel-border);padding:6px 16px;border-radius:6px;font-weight:500;font-size:.85rem}
+    .page{display:none;padding:32px;height:calc(100vh - 64px);overflow-y:auto;opacity:0;transition:opacity .3s;flex-shrink:0}
+    .page.active{display:flex;flex-direction:column;opacity:1}
+    h2{font-size:1.5rem;font-weight:500;letter-spacing:-.5px;margin-bottom:8px}
+    .subtitle{color:var(--text-muted);font-size:.95rem;margin-bottom:32px}
+
+    /* RADAR */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;flex-shrink:0}
+    .stat-card{padding:20px 24px}
+    .stat-title{font-size:.8rem;color:var(--text-muted);font-weight:500}
+    .stat-value{font-size:1.5rem;font-weight:600;font-family:var(--font-mono);margin-top:8px}
+    .radar-container{display:flex;gap:16px;flex-grow:1;min-height:400px}
+    .map-wrapper{flex-grow:1;border-radius:8px;overflow:hidden;position:relative;border:1px solid var(--panel-border)}
+    #map,#history-map{height:100%;width:100%;background:#000;z-index:10}
+    .pulse-red{background:rgba(255,0,0,.15);border-radius:50%;border:1px solid var(--red);display:flex;align-items:center;justify-content:center}
+    .pulse-red::after{content:'';width:4px;height:4px;background:var(--red);border-radius:50%}
+    .pulse-orange{background:rgba(245,166,35,.15);border-radius:50%;border:1px solid var(--orange);display:flex;align-items:center;justify-content:center}
+    .pulse-orange::after{content:'';width:4px;height:4px;background:var(--orange);border-radius:50%}
+    .vessel-mark{background:#fff;clip-path:polygon(50% 0%,0% 100%,100% 100%);width:10px!important;height:14px!important}
+    .vessel-dark{background:var(--red);clip-path:polygon(50% 0%,0% 100%,100% 100%);width:10px!important;height:14px!important}
+    .vessel-waste{background:var(--green);border-radius:50%;width:12px!important;height:12px!important;border:2px solid #fff}
+    .intercepts-panel{width:320px;display:flex;flex-direction:column}
+    .intercepts-header{padding:16px 20px;border-bottom:1px solid var(--panel-border);font-weight:500;display:flex;justify-content:space-between;font-size:.85rem}
+    .intercepts-feed{padding:12px;overflow-y:auto;flex-grow:1;display:flex;flex-direction:column;gap:8px}
+    .feed-item{border:1px solid var(--panel-border);border-left:2px solid var(--blue);padding:12px;border-radius:6px}
+    .feed-item.crit{border-left-color:var(--red)}
+
+    /* ANALYTICS */
+    .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .chart-box{padding:24px;position:relative;height:350px}
+    .chart-box.full{grid-column:1/-1;height:380px}
+    .chart-header{display:flex;justify-content:space-between;margin-bottom:16px}
+    .chart-header p{font-size:.85rem;font-weight:500}
+    .chart-header span{font-size:.75rem;color:var(--text-muted);font-family:var(--font-mono)}
+
+    /* REPORTS */
+    .actions-row{display:flex;gap:12px;margin-bottom:24px;align-items:center}
+    .date-input{background:#000;border:1px solid var(--panel-border);color:var(--text);padding:11px 16px;border-radius:6px;font-family:var(--font-mono);font-size:.85rem;outline:none}
+    .table-container{margin-top:16px;flex-grow:1;overflow-y:auto;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel)}
+    table{width:100%;border-collapse:collapse;text-align:left}
+    th,td{padding:14px 20px;border-bottom:1px solid var(--panel-border);font-size:.85rem}
+    th{color:var(--text-muted);font-weight:500;position:sticky;top:0;background:var(--panel);border-bottom:1px solid #222}
+    tr:hover{background:rgba(255,255,255,.02)}
+    .dl-btn{color:var(--text);text-decoration:none;border:1px solid var(--panel-border);padding:4px 10px;border-radius:4px;font-size:.75rem;cursor:pointer;transition:.2s}
+    .dl-btn:hover{background:#fff;color:#000}
+
+    /* TIMELINE */
+    .history-layout{display:flex;gap:16px;flex-grow:1;min-height:400px}
+    .history-map-wrap{flex-grow:1;display:flex;flex-direction:column;gap:16px}
+    .timeline-controls{padding:16px 24px;display:flex;align-items:center;gap:20px}
+    .timeline-slider{flex-grow:1;-webkit-appearance:none;appearance:none;height:4px;background:var(--panel-border);border-radius:2px;outline:none}
+    .timeline-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer}
+    .btn-icon{background:var(--panel);border:1px solid var(--panel-border);color:var(--text);width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .btn-icon:hover{background:#fff;color:#000}
+    .year-display{font-family:var(--font-mono);font-size:1.2rem;font-weight:500;width:60px;text-align:right}
+
+    /* THREATS */
+    .filter-bar{display:flex;gap:8px;margin-bottom:24px}
+    .filter-btn{background:transparent;border:1px solid transparent;color:var(--text-muted);padding:6px 16px;border-radius:20px;cursor:pointer;font-size:.85rem;font-weight:500}
+    .filter-btn:hover{color:var(--text)}
+    .filter-btn.active{background:rgba(255,255,255,.08);color:var(--text)}
+    .threat-list{display:flex;flex-direction:column;gap:12px;overflow-y:auto;flex-grow:1}
+    .threat-card{padding:20px;display:flex;justify-content:space-between;align-items:center;transition:.4s;border-left:2px solid var(--panel-border)}
+    .threat-card.critical{border-left-color:var(--red)}
+    .threat-card.removing{transform:translateX(20px);opacity:0}
+
+    /* CONFIG */
+    .toggle-row{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--panel-border)}
+    .toggle-info h4{font-weight:500;margin-bottom:4px}
+    .toggle-info p{color:var(--text-muted);font-size:.85rem}
+    .switch{position:relative;display:inline-flex;align-items:center;cursor:pointer}
+    .switch input{opacity:0;width:0;height:0}
+    .badge-status{padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:600;background:#222;color:#888;transition:.2s}
+    .switch input:checked+.badge-status{background:#fff;color:#000}
+
+    /* CREDIT TOAST */
+    .credit-toast{position:fixed;top:80px;right:32px;background:var(--panel);border:1px solid var(--green);padding:16px 24px;border-radius:8px;color:var(--green);font-weight:500;font-size:.95rem;z-index:9999;transform:translateX(120%);transition:transform .3s;box-shadow:var(--shadow)}
+    .credit-toast.show{transform:translateX(0)}
+    .loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--text-muted)}
+    
+    /* NOTIFICATIONS */
+    .notif-panel{position:fixed;right:0;top:-100%;width:320px;height:400px;background:var(--panel);border:1px solid var(--panel-border);border-top:none;border-radius:0 0 0 8px;z-index:9000;box-shadow:var(--shadow);transition:top .3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
+    .notif-panel.open{top:64px}
+    .notif-header{padding:16px 20px;border-bottom:1px solid var(--panel-border);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+    .notif-list{flex-grow:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+    .notif-item{padding:12px;border:1px solid var(--panel-border);border-left:3px solid var(--blue);border-radius:6px;font-size:.85rem;background:rgba(255,255,255,.01)}
+    
+    /* GPS PING */
+    .pulse-blue{background:rgba(41,151,255,.2);border-radius:50%;border:1px solid #2997ff;display:flex;align-items:center;justify-content:center}
+    .pulse-blue::after{content:'';width:6px;height:6px;background:#2997ff;border-radius:50%}
+    .gps-btn{position:absolute;z-index:1000;bottom:24px;right:24px;background:rgba(0,0,0,0.6);border:1px solid var(--panel-border);color:var(--text);padding:10px;border-radius:8px;cursor:pointer;transition:0.2s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .gps-btn:hover{background:rgba(0,112,243,0.3);border-color:var(--blue)}
+    .gps-btn.active{color:#2997ff;border-color:#2997ff;background:rgba(41,151,255,0.15)}
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-gate">
+    <div class="login-left"><canvas id="particles"></canvas></div>
+    <div class="login-right">
+      <div class="login-box">
+        <h1>OceanSync</h1>
+        <p style="color:var(--text-muted);font-size:.9rem">Secure Marine Intelligence Platform</p>
+        
+        <button class="btn-bio" onclick="doBiometric()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 11c0 3.517-1.009 6.799-2.753 9.571M4.002 18.895C5.128 16.159 6 12.731 6 11a6 6 0 0112 0c0 .083 0 .166-.003.249M16.754 20.857C15.726 18.388 15 15.132 15 11a3 3 0 00-6 0M12 11a1 1 0 01-1 1M9 15.513C9.612 13.587 10 11.612 10 11"/></svg>
+          One-Click Login
+        </button>
+        
+        <div class="divider">or sign in manually</div>
+        
+        <input id="inp-user" type="text" class="login-input" placeholder="Username" value="admin">
+        <input id="inp-pass" type="password" class="login-input" placeholder="Password" value="admin">
+        <p class="login-error" id="login-error">Invalid credentials.</p>
+        <button class="btn-primary" onclick="doLogin()">Sign In</button>
+        <div class="login-hint">Default: admin / admin</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app-container">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-icon">O</div><h1>OceanSync</h1></div>
+      <div class="nav-label">Dashboards</div>
+      <button class="nav-btn active" onclick="switchPage('view-radar',this)">Overview Radar</button>
+      <button class="nav-btn" onclick="switchPage('view-analytics',this)">Telemetry Data</button>
+      <button class="nav-btn" onclick="switchPage('view-reports',this)">Export Hub</button>
+      <div class="nav-label">Analysis</div>
+      <button class="nav-btn" onclick="switchPage('view-threats',this)">Threat Matrix <span class="badge" id="nav-threat-count">0</span></button>
+      <button class="nav-btn" onclick="switchPage('view-history',this)">Historical Timeline</button>
+      <div class="nav-label">Settings</div>
+      <button class="nav-btn" onclick="switchPage('view-config',this)">System Config</button>
+      <div class="nav-bottom"><button class="nav-btn" style="color:var(--text-muted)" onclick="doLogout()">Sign Out</button></div>
+    </aside>
+    <main>
+      <header class="top-header">
+        <div style="font-family:var(--font-mono);color:var(--text-muted);font-size:.8rem"><span class="dot-on"></span>SYSTEM ONLINE</div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <button class="btn-icon" onclick="toggleNotifs()" style="position:relative">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);border-radius:50%"></span>
+          </button>
+          <div class="credits-badge">✧ Credits: <span id="credit-score">0</span></div>
+        </div>
+      </header>
+
+      <!-- NOTIF PANEL -->
+      <div id="notif-panel" class="notif-panel glass">
+        <div class="notif-header">Live Alerts <button class="btn-secondary" style="padding:4px 8px;font-size:.7rem" onclick="toggleNotifs()">Dismiss</button></div>
+        <div class="notif-list">
+          <div class="notif-item"><b>New Feature Online</b><br>System configuration panel expanded.</div>
+          <div class="notif-item"><b>Uplink Secured</b><br>GPS tracking module initialized.</div>
+          <div class="notif-item"><b>Export Hub Active</b><br>Executive PDF and JSON generators ready for deployment.</div>
+        </div>
+      </div>
+
+      <!-- RADAR -->
+      <div id="view-radar" class="page active">
+        <h2>Overview Radar</h2><p class="subtitle">Real-time geographical tracking and marine anomalies.</p>
+        <div class="stats-row">
+          <div class="stat-card glass"><div class="stat-title">Avg SST</div><div class="stat-value" id="s-sst">—</div></div>
+          <div class="stat-card glass"><div class="stat-title">Active Buoys</div><div class="stat-value" id="s-buoys">—</div></div>
+          <div class="stat-card glass"><div class="stat-title">AIS Tracks</div><div class="stat-value" id="s-vessels">—</div></div>
+          <div class="stat-card glass"><div class="stat-title">Open Threats</div><div class="stat-value" id="s-threats">—</div></div>
+        </div>
+        <div class="radar-container">
+          <div class="map-wrapper glass">
+            <div id="map"></div>
+            <button class="gps-btn" id="map-gps-btn" onclick="triggerMapGPS()" title="Lock Live Location">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M2 12h4m12 0h4m-4.5 0a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"/></svg>
+            </button>
+          </div>
+          <div class="intercepts-panel glass">
+            <div class="intercepts-header"><span>Event Log</span><span style="font-family:var(--font-mono);color:var(--text-muted)">LIVE</span></div>
+            <div class="intercepts-feed" id="live-feed"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div id="view-analytics" class="page">
+        <h2>Telemetry Data</h2><p class="subtitle">Global sensor metrics from 16 deployed buoy arrays.</p>
+        <div class="chart-grid">
+          <div class="chart-box full glass"><div class="chart-header"><p>Thermal Variance</p><span>SST vs Benthic (°C)</span></div><div style="position:relative;height:calc(100% - 30px);width:100%"><canvas id="chart-temp"></canvas></div></div>
+          <div class="chart-box glass"><div class="chart-header"><p>Hydrostatic Pressure</p><span>dbar</span></div><div style="position:relative;height:calc(100% - 30px);width:100%"><canvas id="chart-pressure"></canvas></div></div>
+          <div class="chart-box glass"><div class="chart-header"><p>Microplastic Density</p><span>% of limit</span></div><div style="position:relative;height:calc(100% - 30px);width:100%"><canvas id="chart-plastic"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- REPORTS -->
+      <div id="view-reports" class="page">
+        <h2>Reporting & Export Hub</h2><p class="subtitle">Generate secure archival endpoints.</p>
+        <div class="actions-row">
+          <input type="date" value="2026-04-01" class="date-input">
+          <button class="btn-primary" onclick="generatePDF()">Generate PDF</button>
+          <button class="btn-secondary" onclick="exportJSON()">Export JSON</button>
+          <button class="btn-secondary">Share Link</button>
+        </div>
+        <div class="table-container"><table><thead><tr><th>Title</th><th>Date</th><th>Size</th><th>Action</th></tr></thead><tbody id="report-body"></tbody></table></div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div id="view-history" class="page">
+        <h2>Historical Timeline</h2><p class="subtitle">Temporal threat progression from 2015 to present.</p>
+        <div class="history-layout">
+          <div class="history-map-wrap">
+            <div class="map-wrapper glass"><div id="history-map"></div></div>
+            <div class="timeline-controls glass">
+              <button class="btn-icon" id="btn-play" onclick="togglePlay()"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+              <input type="range" class="timeline-slider" id="time-slider" min="2015" max="2026" value="2026" oninput="updateTimeline(this.value)">
+              <span class="year-display" id="time-display">2026</span>
+            </div>
+          </div>
+          <div class="glass" style="width:250px;padding:24px">
+            <p style="font-size:.8rem;font-weight:500;margin-bottom:24px">METRICS</p>
+            <div style="margin-bottom:24px"><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">Microplastic Risk</div><div style="font-size:1.5rem;font-family:var(--font-mono);font-weight:500" id="m-plastic">—</div></div>
+            <div style="margin-bottom:24px"><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">Avg Ocean Temp</div><div style="font-size:1.5rem;font-family:var(--font-mono);font-weight:500" id="m-temp">—</div></div>
+            <div><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">Threats Logged</div><div style="font-size:1.5rem;font-family:var(--font-mono);font-weight:500" id="m-threats">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THREATS -->
+      <div id="view-threats" class="page">
+        <h2>Threat Matrix</h2><p class="subtitle">Review and resolve live anomalies. Earn credits for awareness.</p>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-btn" onclick="setFilter('Critical',this)">Critical</button>
+          <button class="filter-btn" onclick="setFilter('Moderate',this)">Moderate</button>
+        </div>
+        <div class="threat-list" id="threat-list"></div>
+      </div>
+
+      <!-- CONFIG -->
+      <div id="view-config" class="page">
+        <h2>System Config</h2><p class="subtitle">Application preferences and tracking settings.</p>
+        <div class="glass" style="max-width:600px;margin-bottom:24px">
+          <label class="toggle-row"><div class="toggle-info"><h4>AI Fleet Extrapolator</h4><p>Auto-route cleanup ops dynamically.</p></div><div class="switch"><input type="checkbox" checked><span class="badge-status">ENABLED</span></div></label>
+          <label class="toggle-row"><div class="toggle-info"><h4>Live Geolocation Tracking</h4><p>Plot your physical GPS on the radar map.</p></div><div class="switch"><input type="checkbox" id="gps-config-toggle" onchange="toggleGPS(this)"><span class="badge-status">DISABLED</span></div></label>
+          <label class="toggle-row"><div class="toggle-info"><h4>Deep-Sea Acoustic Scrambler</h4><p>Mask local fleet from unauthorized sonar sweeps.</p></div><div class="switch"><input type="checkbox"><span class="badge-status">DISABLED</span></div></label>
+          <label class="toggle-row"><div class="toggle-info"><h4>Automated Drone Deployment</h4><p>Auto-dispatch scouting UAVs to critical threats.</p></div><div class="switch"><input type="checkbox" checked><span class="badge-status">ENABLED</span></div></label>
+          <label class="toggle-row" style="border-bottom:none"><div class="toggle-info"><h4>Satellite Sub-Surface Scan</h4><p>Enable extreme-depth multi-spectral imaging.</p></div><div class="switch"><input type="checkbox"><span class="badge-status">DISABLED</span></div></label>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="credit-toast" class="credit-toast"></div>
+
+  <script>
+    /* ─── API & TOKEN ──────────────────────────────── */
+    const API = window.location.origin;
+    function getToken() { return localStorage.getItem('os_token'); }
+    function headers() { return { 'Content-Type':'application/json', 'Authorization':'Bearer '+getToken() }; }
+
+    /* ─── LOGIN ────────────────────────────────────── */
+    // Auto-login if token exists
+    window.addEventListener('DOMContentLoaded', () => {
+      if (getToken()) { enterApp(); } 
+      document.querySelectorAll('.switch input').forEach(i => {
+        i.addEventListener('change', function(){ this.nextElementSibling.innerText = this.checked ? 'ENABLED' : 'DISABLED'; });
+      });
+    });
+
+    async function doLogin() {
+      const user = document.getElementById('inp-user').value.trim();
+      const pass = document.getElementById('inp-pass').value.trim();
+      const errEl = document.getElementById('login-error');
+      errEl.style.display = 'none';
+      try {
+        const res = await fetch(API+'/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user,password:pass}) });
+        const data = await res.json();
+        if (!res.ok) { errEl.style.display='block'; errEl.innerText=data.error||'Login failed'; return; }
+        localStorage.setItem('os_token', data.token);
+        enterApp();
+      } catch(e) { errEl.style.display='block'; errEl.innerText='Server unreachable. Is the server running?'; }
+    }
+
+    async function doBiometric() {
+      try {
+        const res = await fetch(API+'/api/quick-login', { method:'POST', headers:{'Content-Type':'application/json'} });
+        const data = await res.json();
+        localStorage.setItem('os_token', data.token);
+        enterApp();
+      } catch(e) { document.getElementById('login-error').style.display='block'; document.getElementById('login-error').innerText='Server unreachable'; }
+    }
+
+    function enterApp() {
+      const g=document.getElementById('login-gate'); g.style.transition='opacity .4s'; g.style.opacity=0;
+      setTimeout(()=>{ g.style.display='none'; document.getElementById('app-container').style.display='flex'; loadDashboard(); loadAnalytics(); loadReports(); loadThreats(); loadCredits(); updateTimeline(2026); showToast('Welcome back, Operator.'); },400);
+    }
+
+    function doLogout() { localStorage.removeItem('os_token'); location.reload(); }
+
+    /* ─── PARTICLES ─────────────────────────────────── */
+    function initParticles() {
+      const c = document.getElementById('particles'); if(!c) return;
+      const ctx = c.getContext('2d');
+      let w = c.width = c.parentElement.clientWidth;
+      let h = c.height = c.parentElement.clientHeight;
+      const dots = Array.from({length:80},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.5,dx:(Math.random()-.5)*.4,dy:(Math.random()-.5)*.4}));
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        dots.forEach(d=>{
+          d.x+=d.dx; d.y+=d.dy;
+          if(d.x<0||d.x>w)d.dx*=-1; if(d.y<0||d.y>h)d.dy*=-1;
+          ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.fill();
+        });
+        // draw lines between nearby dots
+        for(let i=0;i<dots.length;i++) for(let j=i+1;j<dots.length;j++){
+          const dist = Math.hypot(dots[i].x-dots[j].x, dots[i].y-dots[j].y);
+          if(dist<120){ ctx.beginPath(); ctx.moveTo(dots[i].x,dots[i].y); ctx.lineTo(dots[j].x,dots[j].y); ctx.strokeStyle=`rgba(255,255,255,${0.08*(1-dist/120)})`; ctx.stroke(); }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+    initParticles();
+
+    /* ─── ROUTER ───────────────────────────────────── */
+    function switchPage(pId, btn) {
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+      document.getElementById(pId).classList.add('active'); btn.classList.add('active');
+      if(pId==='view-radar'&&mapR) setTimeout(()=>mapR.invalidateSize(),50);
+      if(pId==='view-history'){ if(!mapH) initHistoryMap(); else setTimeout(()=>mapH.invalidateSize(),50); }
+    }
+
+    /* ─── DASHBOARD (RADAR) ────────────────────────── */
+    let mapR;
+    async function loadDashboard() {
+      const res = await fetch(API+'/api/dashboard', {headers:headers()});
+      const {stats, sensors, vessels} = await res.json();
+      document.getElementById('s-sst').innerText = stats.avgSST+'°C';
+      document.getElementById('s-buoys').innerText = stats.activeSensors;
+      document.getElementById('s-vessels').innerText = stats.trackedVessels;
+      document.getElementById('s-threats').innerText = stats.openThreats;
+      initMap(sensors, vessels);
+    }
+
+    function initMap(sensors, vessels) {
+      if(mapR) return;
+      mapR = L.map('map',{zoomControl:false,attributionControl:false}).setView([15,-20],3);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{noWrap:true}).addTo(mapR);
+      
+      sensors.forEach(s=> {
+        const cls = s.pollution>60?'pulse-red':'pulse-orange';
+        const sz = s.pollution>60?16:12;
+        L.marker([s.lat,s.lng],{icon:L.divIcon({className:cls,iconSize:[sz,sz]})})
+          .bindPopup(`<b>Buoy ${s.id}</b><br>SST: ${s.sst}°C<br>Benthic: ${s.benthic}°C<br>Pressure: ${s.pressure} dbar<br>Pollution: ${s.pollution}%`)
+          .addTo(mapR);
+      });
+      vessels.forEach(v=> {
+        let cls = v.isDark ? 'vessel-dark' : (v.type==='Waste' ? 'vessel-waste' : 'vessel-mark');
+        L.marker([v.lat,v.lng],{icon:L.divIcon({className:cls,iconSize:[12,14]})})
+          .bindPopup(`<b>${v.name}</b><br>Type: ${v.type}<br>Speed: ${v.speed} kn`)
+          .addTo(mapR);
+      });
+
+      // Live feed simulation
+      const feed = document.getElementById('live-feed');
+      const msgs = ['Anomaly signature detected','SST fluctuation parsed','AIS ping from vessel','Waste extractor delta-v logged','Acoustic pattern recognized'];
+      setInterval(()=>{
+        const d=document.createElement('div'); const c=Math.random()>.8;
+        d.className='feed-item'+(c?' crit':'');
+        d.innerHTML=`<div style="font-size:.8rem;font-weight:600;margin-bottom:4px;color:${c?'var(--red)':'var(--text)'}">${c?'CRITICAL':'ROUTINE'}</div><div style="font-size:.8rem;color:var(--text-muted)">${msgs[Math.floor(Math.random()*msgs.length)]}</div>`;
+        feed.prepend(d); if(feed.children.length>5)feed.lastChild.remove();
+      },4000);
+    }
+
+    /* ─── ANALYTICS (CHARTS) ───────────────────────── */
+    let tCh,pCh,bCh;
+    async function loadAnalytics() {
+      const res = await fetch(API+'/api/analytics',{headers:headers()});
+      const {sensors} = await res.json();
+      initCharts(sensors);
+    }
+    function initCharts(sensors) {
+      if(tCh)return;
+      Chart.defaults.color='#888'; Chart.defaults.font.family="'JetBrains Mono',monospace";
+      const lbls = sensors.map(s=>s.id);
+      const sstD = sensors.map(s=>s.sst);
+      const benD = sensors.map(s=>s.benthic);
+      const presD = sensors.map(s=>s.pressure);
+      const pollD = sensors.map(s=>s.pollution);
+
+      const ctx1 = document.getElementById('chart-temp').getContext('2d');
+      const g1 = ctx1.createLinearGradient(0,0,0,350); g1.addColorStop(0,'rgba(255,255,255,0.15)'); g1.addColorStop(1,'rgba(255,255,255,0)');
+      const g2 = ctx1.createLinearGradient(0,0,0,350); g2.addColorStop(0,'rgba(0,112,243,0.3)'); g2.addColorStop(1,'rgba(0,112,243,0)');
+      tCh = new Chart(ctx1, { type:'line', data:{labels:lbls, datasets:[
+        {label:'SST (°C)',data:sstD,borderColor:'#fff',backgroundColor:g1,fill:true,tension:.3},
+        {label:'Benthic (°C)',data:benD,borderColor:'#0070F3',backgroundColor:g2,fill:true,tension:.3}
+      ]}, options:{responsive:true,maintainAspectRatio:false,scales:{y:{grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{color:'rgba(255,255,255,.03)'}}}}});
+
+      pCh = new Chart(document.getElementById('chart-pressure'), { type:'line', data:{labels:lbls, datasets:[
+        {label:'Pressure (dbar)',data:presD,borderColor:'#888',borderDash:[5,5],tension:.2,pointBackgroundColor:'#fff'}
+      ]}, options:{responsive:true,maintainAspectRatio:false,scales:{y:{grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{color:'rgba(255,255,255,.03)'}}}}});
+
+      bCh = new Chart(document.getElementById('chart-plastic'), { type:'bar', data:{labels:lbls, datasets:[
+        {label:'Pollution %',data:pollD,backgroundColor:'rgba(255,255,255,.15)',borderColor:'rgba(255,255,255,.3)',borderWidth:1,borderRadius:4}
+      ]}, options:{responsive:true,maintainAspectRatio:false,scales:{y:{max:100,grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{color:'rgba(255,255,255,.03)'}}}}});
+    }
+
+    /* ─── REPORTS ───────────────────────────────────── */
+    async function loadReports() {
+      const res = await fetch(API+'/api/reports',{headers:headers()});
+      const {reports} = await res.json();
+      const tb = document.getElementById('report-body'); tb.innerHTML='';
+      reports.forEach(r=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${r.title}</td><td style="font-family:var(--font-mono);color:var(--text-muted)">${r.date}</td><td style="font-family:var(--font-mono);color:var(--text-muted)">${r.size}</td><td><span class="dl-btn" onclick="showToast('✓ Downloading encrypted archive: ${r.title}')">Download</span></td>`;
+        tb.appendChild(tr);
+      });
+    }
+
+    /* ─── THREATS ───────────────────────────────────── */
+    let allThreats=[], currentFilter='all';
+    async function loadThreats() {
+      const res = await fetch(API+'/api/threats',{headers:headers()});
+      const data = await res.json();
+      allThreats = data.threats;
+      renderThreats();
+    }
+    function setFilter(f,btn) {
+      currentFilter=f;
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderThreats();
+    }
+    function renderThreats() {
+      const list=document.getElementById('threat-list'); list.innerHTML='';
+      let filtered = currentFilter==='all' ? allThreats : allThreats.filter(t=>t.severity===currentFilter);
+      document.getElementById('nav-threat-count').innerText=allThreats.length;
+      document.getElementById('s-threats').innerText=allThreats.length;
+      filtered.forEach(t=>{
+        const el=document.createElement('div');
+        el.className='threat-card glass'+(t.severity==='Critical'?' critical':'');
+        el.id='tc-'+t.id;
+        el.innerHTML=`
+          <div>
+            <div style="font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:8px">${t.type} <span class="badge" style="${t.severity==='Critical'?'background:#411;color:#f55':''}">${t.severity}</span></div>
+            <div style="color:var(--text-muted);font-size:.85rem;margin-bottom:12px">${t.description}</div>
+            <div style="font-family:var(--font-mono);font-size:.75rem;color:#555">[${t.lat}, ${t.lng}] • ${new Date(t.timestamp).toLocaleString()}</div>
+          </div>
+          <button class="btn-secondary" onclick="resolveThreat('${t.id}',this)">Resolve</button>`;
+        list.appendChild(el);
+      });
+    }
+    async function resolveThreat(id,btn) {
+      const card=btn.closest('.threat-card');
+      card.classList.add('removing');
+      const res = await fetch(API+'/api/threats/'+id,{method:'DELETE',headers:headers()});
+      const data = await res.json();
+      setTimeout(()=>{
+        allThreats=allThreats.filter(t=>t.id!==id);
+        renderThreats();
+        document.getElementById('credit-score').innerText=data.credits;
+        showToast('✓ +50 Credits Awarded — Thank you for protecting the oceans!');
+      },400);
+    }
+
+    /* ─── CREDITS ──────────────────────────────────── */
+    async function loadCredits() {
+      const res = await fetch(API+'/api/user',{headers:headers()});
+      const data = await res.json();
+      document.getElementById('credit-score').innerText=data.credits;
+    }
+    function showToast(msg) {
+      const t=document.getElementById('credit-toast'); t.innerText=msg;
+      t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+    }
+
+    /* ─── HISTORY (TIMELINE) ───────────────────────── */
+    let mapH, hMarker, historyData={};
+    function initHistoryMap() {
+      mapH=L.map('history-map',{zoomControl:false,attributionControl:false}).setView([10,-80],3);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{noWrap:true}).addTo(mapH);
+      hMarker=L.marker([25,-75],{icon:L.divIcon({className:'pulse-orange',iconSize:[40,40]})}).addTo(mapH);
+      loadAllHistory();
+    }
+    async function loadAllHistory() {
+      const res = await fetch(API+'/api/history',{headers:headers()});
+      historyData = await res.json();
+      updateTimeline(2026);
+    }
+    let pInt;
+    function togglePlay() {
+      const b=document.getElementById('btn-play'),s=document.getElementById('time-slider');
+      if(pInt){clearInterval(pInt);pInt=null;b.innerHTML='<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';return;}
+      b.innerHTML='<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+      pInt=setInterval(()=>{let v=parseInt(s.value);if(v>=2026)v=2014;s.value=v+1;updateTimeline(s.value);},1000);
+    }
+    function updateTimeline(yr) {
+      document.getElementById('time-display').innerText=yr;
+      const d=historyData[yr];
+      if(d){
+        document.getElementById('m-plastic').innerText=d.plasticDensity+'%';
+        document.getElementById('m-temp').innerText=d.avgSST+'°C';
+        document.getElementById('m-threats').innerText=d.threatCount;
+        if(hMarker){const sz=12+((yr-2015)/11)*50;hMarker.setIcon(L.divIcon({className:'pulse-orange',iconSize:[sz,sz]}));}
+      }
+    }
+
+    /* ─── NEW FEATURES ─────────────────────────────── */
+    function toggleNotifs() {
+      document.getElementById('notif-panel').classList.toggle('open');
+    }
+
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      if (!jsPDF) { showToast("❌ jsPDF library not loaded."); return; }
+      const doc = new jsPDF();
+      const dateString = document.querySelector('.date-input')?.value || new Date().toISOString().split('T')[0];
+      
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("OceanSync Intelligence Report", 20, 30);
+      
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Clearance: TOP SECRET | Operator: Admin | Date: ${dateString}`, 20, 45);
+      
+      doc.line(20, 50, 190, 50);
+      
+      doc.setFont("helvetica", "bold");
+      doc.text("SYSTEM STATUS OVERVIEW", 20, 65);
+      
+      doc.setFont("helvetica", "normal");
+      doc.text(`Total Active Sensor Arrays: ${document.getElementById('s-buoys')?.innerText || '—'}`, 20, 80);
+      doc.text(`Tracked Vessel Count: ${document.getElementById('s-vessels')?.innerText || '—'}`, 20, 90);
+      doc.text(`Active Severity Threats: ${document.getElementById('s-threats')?.innerText || '—'}`, 20, 100);
+      doc.text(`Global Mean SST Anomaly: ${document.getElementById('s-sst')?.innerText || '—'}`, 20, 110);
+      
+      doc.line(20, 120, 190, 120);
+      doc.text("END OF REPORT", 20, 135);
+      
+      doc.save(`OceanSync_Brief_${dateString}.pdf`);
+      showToast('✓ Executive Brief PDF generated and downloaded.');
+    }
+
+    async function exportJSON() {
+      const dateString = document.querySelector('.date-input')?.value || new Date().toISOString().split('T')[0];
+      try {
+        const res = await fetch(API+'/api/analytics', {headers:headers()});
+        const data = await res.json();
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = `Telemetry_Dump_${dateString}.json`;
+        a.click();
+        showToast('✓ Raw Telemetry JSON exported successfully.');
+      } catch(e) {
+        showToast('❌ Export failed to retrieve data.');
+      }
+    }
+
+    let gpsMarker = null;
+    function triggerMapGPS() {
+      const cb = document.getElementById('gps-config-toggle');
+      if(cb) {
+        cb.checked = !cb.checked;
+        cb.nextElementSibling.innerText = cb.checked ? 'ENABLED' : 'DISABLED';
+        toggleGPS(cb);
+      }
+    }
+
+    function toggleGPS(cb) {
+      const btn = document.getElementById('map-gps-btn');
+      if(btn) btn.classList.toggle('active', cb.checked);
+      
+      if (cb.checked) {
+        if ("geolocation" in navigator) {
+          showToast("⏳ Establishing secure satellite uplink to device...");
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const lat = pos.coords.latitude;
+              const lng = pos.coords.longitude;
+              if (mapR) {
+                if(gpsMarker) mapR.removeLayer(gpsMarker);
+                gpsMarker = L.marker([lat, lng], {icon: L.divIcon({className: 'pulse-blue', iconSize: [16,16]})})
+                  .bindPopup("<b>Operator Location</b><br>Live GPS Matrix Active")
+                  .addTo(mapR);
+                mapR.flyTo([lat, lng], 5);
+                showToast("✓ GPS Uplink Established! Location pinned on Radar.");
+              }
+            }, 
+            (err) => {
+              showToast("❌ GPS Signal Blocked or Submarine mode active.");
+              cb.checked = false;
+              cb.nextElementSibling.innerText = "DISABLED";
+              if(btn) btn.classList.remove('active');
+            }
+          );
+        } else {
+          showToast("❌ Geolocation routing blocked by local system.");
+          cb.checked = false;
+          cb.nextElementSibling.innerText = "DISABLED";
+          if(btn) btn.classList.remove('active');
+        }
+      } else {
+        if (gpsMarker && mapR) {
+          mapR.removeLayer(gpsMarker);
+          gpsMarker = null;
+        }
+        showToast("✓ Live GPS Disconnected. Tracks scrubbed.");
+      }
+    }
+
+  </script>
+</body>
+</html>
