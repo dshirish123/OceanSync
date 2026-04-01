@@ -16,7 +16,7 @@ const DB_PATH = path.join(__dirname, 'data', 'db.json');
 // ── Middleware ───────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..'), { index: false }));
+app.use(express.static(path.join(__dirname), { index: false }));
 
 // ── Database Connection ──────────────────────────────────────
 let isMongo = false;
@@ -91,7 +91,7 @@ async function seedDatabase() {
 // ── ROUTES ──────────────────────────────────────────────────
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'OceanSync.html'));
+  res.sendFile(path.join(__dirname, 'OceanSync.html'));
 });
 
 // POST /api/login
