@@ -119,11 +119,17 @@ async function seedDatabase() {
     };
   });
 
+  const exchange = [
+    { id: 'LOT-902', material: 'Plastic Debris Gyre', vendor: 'Global Grid Collectors', topBid: 14200, bidder: 'EcoThreads Asia', status: 'BIDDING OPEN', timeleft: '1h 14m' },
+    { id: 'LOT-903', material: 'Scrap Metal Deposit', vendor: 'TideSweepers Inc', topBid: 6800, bidder: 'Industrial Renew', status: 'BIDS CLOSING', timeleft: '0h 02m' }
+  ];
+
   const seed = {
     admin: { username: 'admin', password: hashedPassword, role: 'operator', credits: 0 },
     sensors,
     vessels,
-    threats
+    threats,
+    exchange
   };
   writeDB(seed);
 }
@@ -223,6 +229,17 @@ app.delete('/api/threats/:id', protect, async (req, res) => {
       vendor.targetLng = targetJob.lng;
       vendor.targetName = targetJob.type;
       assignedVendor = vendor.name;
+      
+      const buyers = ['EcoThreads Apparel', 'Renewable Box Co', 'Sustainable Metals Inc', 'Reclaimed Supply'];
+      db.exchange.unshift({
+        id: 'LOT-90' + Math.floor(Math.random()*10),
+        material: targetJob.type,
+        vendor: vendor.name,
+        topBid: vendor.totalPayout + Math.floor(Math.random()*2000), // Buyer pays a premium over the vendor cost
+        bidder: buyers[Math.floor(Math.random()*buyers.length)],
+        status: 'JUST LISTED',
+        timeleft: '12h 00m'
+      });
     }
 
     db.admin.credits += 50;
@@ -240,6 +257,14 @@ app.get('/api/vendors', protect, async (req, res) => {
     res.json(await Vessel.find());
   } else {
     res.json(readDB().vessels);
+  }
+});
+
+app.get('/api/exchange', protect, async (req, res) => {
+  if (isMongo) {
+    res.json([]); // Mongo integration omitted for brevity
+  } else {
+    res.json(readDB().exchange || []);
   }
 });
 

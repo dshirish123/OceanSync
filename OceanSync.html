@@ -162,6 +162,11 @@
     .gps-btn{position:absolute;z-index:1000;bottom:24px;right:24px;background:rgba(0,0,0,0.6);border:1px solid var(--panel-border);color:var(--text);padding:10px;border-radius:8px;cursor:pointer;transition:0.2s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
     .gps-btn:hover{background:rgba(0,112,243,0.3);border-color:var(--blue)}
     .gps-btn.active{color:#2997ff;border-color:#2997ff;background:rgba(41,151,255,0.15)}
+    
+    @keyframes glow {
+      from { box-shadow: inset 0 0 2px rgba(0,230,118,0.1); background: rgba(0,230,118,0.02); }
+      to { box-shadow: inset 0 0 12px rgba(0,230,118,0.4); background: rgba(0,230,118,0.15); }
+    }
   </style>
 </head>
 <body>
@@ -198,6 +203,7 @@
       <button class="nav-btn active" onclick="switchPage('view-radar',this)">Overview Radar</button>
       <div class="nav-label">Business Operations</div>
       <button class="nav-btn" onclick="switchPage('view-vendors',this)">Vendor Mobile Fleet</button>
+      <button class="nav-btn" onclick="switchPage('view-exchange',this)">Commodity Exchange <span class="badge" style="background:var(--blue);color:#fff">LIVE</span></button>
       <button class="nav-btn" onclick="switchPage('view-threats',this)">Dispatch Matrix <span class="badge" id="nav-threat-count">0</span></button>
       <div class="nav-label">Settings</div>
       <button class="nav-btn" onclick="switchPage('view-config',this)">System Config</button>
@@ -250,6 +256,19 @@
             <div class="intercepts-feed" id="live-feed"></div>
           </div>
         </div>
+      </div>
+
+      <!-- COMMODITY EXCHANGE -->
+      <div id="view-exchange" class="page">
+        <h2>Live Commodity Exchange</h2><p class="subtitle">B2B marketplace where eco-factories bid on raw materials dynamically extracted by your vendors.</p>
+        <div class="stats-row">
+           <div class="stat-card glass"><div class="stat-title">Platform Fee Rate</div><div class="stat-value" style="color:var(--blue)">5.0%</div></div>
+           <div class="stat-card glass"><div class="stat-title">Daily Volume (Platform)</div><div class="stat-value" style="color:var(--green)">$3.4M</div></div>
+        </div>
+        <div class="table-container" style="margin-top:24px"><table>
+          <thead><tr><th>Lot ID & Material</th><th>Vendor Source</th><th>Highest Bidder (Factory)</th><th>Market Status</th><th>Top Bid (USD)</th></tr></thead>
+          <tbody id="exchange-body"></tbody>
+        </table></div>
       </div>
 
       <!-- VENDOR FLEET -->
@@ -380,8 +399,8 @@
       document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
       document.getElementById(pId).classList.add('active'); btn.classList.add('active');
       if(pId==='view-radar'&&mapR) setTimeout(()=>mapR.invalidateSize(),50);
-      if(pId==='view-history'){ if(!mapH) initHistoryMap(); else setTimeout(()=>mapH.invalidateSize(),50); }
       if(pId==='view-vendors'){ if(!mapV) initVendorMap(); else setTimeout(()=>mapV.invalidateSize(),50); }
+      if(pId==='view-exchange'){ loadExchange(); }
     }
 
     /* ─── DASHBOARD (RADAR) ────────────────────────── */
@@ -489,6 +508,30 @@
           }
         });
       } catch(e) { console.error("Error loading vendors:", e); }
+    }
+
+    /* ─── COMMODITY EXCHANGE ───────────────────────── */
+    async function loadExchange() {
+      try {
+        const res = await fetch(API+'/api/exchange', {headers:headers()});
+        const exchangeList = await res.json();
+        const tb = document.getElementById('exchange-body');
+        tb.innerHTML = '';
+        exchangeList.forEach(lot => {
+          const tr = document.createElement('tr');
+          // Flashing animation for "Just Listed" or updated bids
+          if(lot.status === 'JUST LISTED') tr.style.animation = 'glow 2s infinite alternate';
+          
+          tr.innerHTML = `
+            <td style="font-weight:500">${lot.material} <br><span style="font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono)">${lot.id}</span></td>
+            <td><span class="badge" style="background:rgba(255,255,255,0.1)"><svg width="12" height="12" style="margin-right:4px;vertical-align:middle" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44H12l-7.9-4.44a.99.99 0 0 1-.53-.88v-9c0-.38.21-.71.53-.88L12 2l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15z"></path></svg> ${lot.vendor}</span></td>
+            <td style="color:var(--blue);font-weight:600">${lot.bidder}</td>
+            <td><span style="font-size:0.75rem;padding:4px 8px;border-radius:4px;background:rgba(255,136,0,0.1);color:var(--orange)">${lot.status} • ${lot.timeleft}</span></td>
+            <td style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--green)">$${(lot.topBid).toLocaleString()} <span style="font-size:0.6rem;color:var(--text-muted)">▲</span></td>
+          `;
+          tb.appendChild(tr);
+        });
+      } catch(e) { console.error("Error loading exchange:", e); }
     }
 
     /* ─── THREATS ───────────────────────────────────── */
