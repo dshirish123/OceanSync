@@ -206,6 +206,7 @@ app.delete('/api/threats/:id', protect, async (req, res) => {
     res.json({ message: 'Resolved', credits: u.credits, assignedVendor: 'Cloud Vendor Alpha' });
   } else {
     const db = readDB();
+    const targetJob = db.threats.find(t => t.id === req.params.id);
     const before = db.threats.length;
     db.threats = db.threats.filter(t => t.id !== req.params.id);
     if (db.threats.length === before) return res.status(404).json({ error: 'Not found' });
@@ -213,11 +214,14 @@ app.delete('/api/threats/:id', protect, async (req, res) => {
     // ── BUSINESS LOGIC: Assign to Idle Vendor ──
     let assignedVendor = null;
     const idleVendors = db.vessels.filter(v => v.mobileStatus === 'Idle');
-    if (idleVendors.length > 0) {
+    if (idleVendors.length > 0 && targetJob) {
       // Pick a random idle vendor
       const vendor = idleVendors[Math.floor(Math.random() * idleVendors.length)];
       vendor.mobileStatus = 'En Route to Target';
       vendor.totalPayout += Math.floor(Math.random() * (2500 - 500) + 500); // Add $500-$2500 for the job
+      vendor.targetLat = targetJob.lat;
+      vendor.targetLng = targetJob.lng;
+      vendor.targetName = targetJob.type;
       assignedVendor = vendor.name;
     }
 

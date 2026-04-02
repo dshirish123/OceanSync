@@ -1,226 +1,226 @@
 {
   "admin": {
     "username": "admin",
-    "password": "$2a$10$inec2EyNNAFMaicx223YaOPZe/LCwL0Wf31C2pbegucyHZCTMnZNC",
+    "password": "$2a$10$l7R49K7x5WIsInJt8Puu9OX6eAo38cKFlNKXIjV4k0q7vLegNAIS.",
     "role": "operator",
     "credits": 0
   },
   "sensors": [
     {
       "id": "Buoy-100",
-      "lat": "-43.87",
-      "lng": "52.10",
-      "pollution": 85,
-      "sst": 28.6,
-      "benthic": 3.1,
-      "pressure": 5370
+      "lat": "50.10",
+      "lng": "-55.42",
+      "pollution": 13,
+      "sst": 24.1,
+      "benthic": 3.3,
+      "pressure": 3081
     },
     {
       "id": "Buoy-101",
-      "lat": "-17.04",
-      "lng": "11.57",
-      "pollution": 63,
-      "sst": 25.3,
-      "benthic": 2.3,
-      "pressure": 5579
+      "lat": "32.82",
+      "lng": "48.00",
+      "pollution": 25,
+      "sst": 31.3,
+      "benthic": 3.8,
+      "pressure": 5516
     },
     {
       "id": "Buoy-102",
-      "lat": "36.89",
-      "lng": "61.61",
-      "pollution": 59,
-      "sst": 17.2,
-      "benthic": 2.6,
-      "pressure": 3829
+      "lat": "34.27",
+      "lng": "-108.69",
+      "pollution": 57,
+      "sst": 27.6,
+      "benthic": 2.5,
+      "pressure": 5497
     },
     {
       "id": "Buoy-103",
-      "lat": "34.19",
-      "lng": "20.08",
-      "pollution": 51,
-      "sst": 32,
-      "benthic": 2.8,
-      "pressure": 4797
+      "lat": "-59.30",
+      "lng": "35.92",
+      "pollution": 92,
+      "sst": 19.7,
+      "benthic": 2.1,
+      "pressure": 3588
     },
     {
       "id": "Buoy-104",
-      "lat": "55.87",
-      "lng": "-32.87",
-      "pollution": 91,
-      "sst": 18.3,
-      "benthic": 2.8,
-      "pressure": 3158
+      "lat": "58.73",
+      "lng": "77.38",
+      "pollution": 45,
+      "sst": 18.4,
+      "benthic": 4.4,
+      "pressure": 4247
     },
     {
       "id": "Buoy-105",
-      "lat": "46.09",
-      "lng": "-123.50",
-      "pollution": 14,
-      "sst": 31.8,
-      "benthic": 3.7,
-      "pressure": 3162
+      "lat": "55.87",
+      "lng": "-14.95",
+      "pollution": 38,
+      "sst": 29.7,
+      "benthic": 4.1,
+      "pressure": 4138
     },
     {
       "id": "Buoy-106",
-      "lat": "36.33",
-      "lng": "-0.70",
-      "pollution": 33,
-      "sst": 22.9,
-      "benthic": 2.4,
-      "pressure": 5833
-    },
-    {
-      "id": "Buoy-107",
-      "lat": "23.59",
-      "lng": "24.32",
-      "pollution": 83,
-      "sst": 19.1,
-      "benthic": 4.8,
-      "pressure": 4606
-    },
-    {
-      "id": "Buoy-108",
-      "lat": "-47.80",
-      "lng": "-97.17",
-      "pollution": 55,
-      "sst": 29.2,
-      "benthic": 4.6,
-      "pressure": 5708
-    },
-    {
-      "id": "Buoy-109",
-      "lat": "-47.88",
-      "lng": "84.99",
-      "pollution": 11,
-      "sst": 26.5,
-      "benthic": 2.1,
+      "lat": "-22.67",
+      "lng": "-87.59",
+      "pollution": 19,
+      "sst": 26.2,
+      "benthic": 2,
       "pressure": 3465
     },
     {
+      "id": "Buoy-107",
+      "lat": "-13.27",
+      "lng": "129.92",
+      "pollution": 75,
+      "sst": 30,
+      "benthic": 5.1,
+      "pressure": 4101
+    },
+    {
+      "id": "Buoy-108",
+      "lat": "11.75",
+      "lng": "-178.63",
+      "pollution": 61,
+      "sst": 25.1,
+      "benthic": 4.7,
+      "pressure": 3959
+    },
+    {
+      "id": "Buoy-109",
+      "lat": "36.83",
+      "lng": "95.92",
+      "pollution": 74,
+      "sst": 26.6,
+      "benthic": 4.2,
+      "pressure": 5714
+    },
+    {
       "id": "Buoy-110",
-      "lat": "34.08",
-      "lng": "172.72",
-      "pollution": 26,
-      "sst": 25.3,
-      "benthic": 5.4,
-      "pressure": 5789
+      "lat": "-17.92",
+      "lng": "88.49",
+      "pollution": 40,
+      "sst": 24.5,
+      "benthic": 4,
+      "pressure": 5441
     },
     {
       "id": "Buoy-111",
-      "lat": "-14.93",
-      "lng": "-119.89",
-      "pollution": 17,
-      "sst": 26.5,
-      "benthic": 2.8,
-      "pressure": 4074
+      "lat": "-27.48",
+      "lng": "-144.18",
+      "pollution": 37,
+      "sst": 25.2,
+      "benthic": 5.6,
+      "pressure": 5580
     },
     {
       "id": "Buoy-112",
-      "lat": "-13.15",
-      "lng": "-40.04",
-      "pollution": 70,
-      "sst": 30.7,
-      "benthic": 2.7,
-      "pressure": 5771
+      "lat": "21.20",
+      "lng": "-39.70",
+      "pollution": 54,
+      "sst": 26.5,
+      "benthic": 5.8,
+      "pressure": 5543
     },
     {
       "id": "Buoy-113",
-      "lat": "-27.17",
-      "lng": "137.11",
-      "pollution": 30,
-      "sst": 18.5,
-      "benthic": 3,
-      "pressure": 5369
+      "lat": "24.04",
+      "lng": "-99.31",
+      "pollution": 90,
+      "sst": 24.8,
+      "benthic": 5,
+      "pressure": 4404
     },
     {
       "id": "Buoy-114",
-      "lat": "-16.16",
-      "lng": "10.36",
-      "pollution": 89,
-      "sst": 31.1,
-      "benthic": 3.9,
-      "pressure": 5386
+      "lat": "-19.90",
+      "lng": "153.66",
+      "pollution": 53,
+      "sst": 26.5,
+      "benthic": 4.8,
+      "pressure": 4699
     },
     {
       "id": "Buoy-115",
-      "lat": "34.64",
-      "lng": "-66.77",
-      "pollution": 16,
-      "sst": 19.2,
-      "benthic": 3.3,
-      "pressure": 4489
+      "lat": "-39.49",
+      "lng": "-106.10",
+      "pollution": 71,
+      "sst": 20.7,
+      "benthic": 5.4,
+      "pressure": 4374
     },
     {
       "id": "Buoy-116",
-      "lat": "3.76",
-      "lng": "115.74",
-      "pollution": 94,
-      "sst": 21.1,
-      "benthic": 5.8,
-      "pressure": 3835
+      "lat": "-5.07",
+      "lng": "-113.15",
+      "pollution": 28,
+      "sst": 26.1,
+      "benthic": 4,
+      "pressure": 5881
     },
     {
       "id": "Buoy-117",
-      "lat": "-10.71",
-      "lng": "58.50",
-      "pollution": 47,
-      "sst": 29.1,
-      "benthic": 2.6,
-      "pressure": 5050
+      "lat": "-15.18",
+      "lng": "169.10",
+      "pollution": 12,
+      "sst": 19.7,
+      "benthic": 2.4,
+      "pressure": 5816
     },
     {
       "id": "Buoy-118",
-      "lat": "-10.10",
-      "lng": "110.67",
-      "pollution": 45,
-      "sst": 25.8,
-      "benthic": 2.2,
-      "pressure": 3430
+      "lat": "35.97",
+      "lng": "-167.79",
+      "pollution": 53,
+      "sst": 18,
+      "benthic": 2.6,
+      "pressure": 4188
     },
     {
       "id": "Buoy-119",
-      "lat": "50.09",
-      "lng": "118.21",
-      "pollution": 93,
-      "sst": 18.3,
-      "benthic": 2.4,
-      "pressure": 5226
+      "lat": "39.23",
+      "lng": "-50.81",
+      "pollution": 44,
+      "sst": 31.9,
+      "benthic": 4.7,
+      "pressure": 5710
     },
     {
       "id": "Buoy-120",
-      "lat": "-31.18",
-      "lng": "-23.14",
-      "pollution": 14,
-      "sst": 15.9,
-      "benthic": 4.7,
-      "pressure": 4050
+      "lat": "-12.82",
+      "lng": "77.43",
+      "pollution": 44,
+      "sst": 17.6,
+      "benthic": 4.2,
+      "pressure": 5671
     },
     {
       "id": "Buoy-121",
-      "lat": "-19.71",
-      "lng": "-30.63",
-      "pollution": 40,
-      "sst": 31.6,
-      "benthic": 4.9,
-      "pressure": 3406
+      "lat": "19.87",
+      "lng": "-102.68",
+      "pollution": 90,
+      "sst": 25.6,
+      "benthic": 5.2,
+      "pressure": 4152
     },
     {
       "id": "Buoy-122",
-      "lat": "38.00",
-      "lng": "-145.65",
-      "pollution": 62,
-      "sst": 28.8,
-      "benthic": 3.9,
-      "pressure": 5893
+      "lat": "-58.40",
+      "lng": "140.70",
+      "pollution": 94,
+      "sst": 15.6,
+      "benthic": 2.7,
+      "pressure": 3693
     },
     {
       "id": "Buoy-123",
-      "lat": "-22.36",
-      "lng": "87.75",
-      "pollution": 86,
-      "sst": 22.7,
-      "benthic": 2.9,
-      "pressure": 4819
+      "lat": "31.58",
+      "lng": "-115.05",
+      "pollution": 71,
+      "sst": 23.6,
+      "benthic": 2.8,
+      "pressure": 3596
     }
   ],
   "vessels": [
@@ -228,339 +228,339 @@
       "id": "V-10",
       "name": "OceanClear Logistics Mobile Unit 1",
       "type": "Waste Extractor",
-      "lat": "-1.89",
-      "lng": "-12.90",
-      "heading": 79,
-      "speed": 6.8,
+      "lat": "-13.29",
+      "lng": "80.04",
+      "heading": 105,
+      "speed": 12.5,
       "isDark": false,
-      "mobileStatus": "Idle",
-      "totalPayout": 4505
+      "mobileStatus": "Collecting Material",
+      "totalPayout": 9548
     },
     {
       "id": "V-11",
       "name": "TideSweepers Inc Mobile Unit 2",
       "type": "Scrap Hauler",
-      "lat": "-4.02",
-      "lng": "71.49",
-      "heading": 4,
-      "speed": 8.6,
+      "lat": "-14.10",
+      "lng": "-43.13",
+      "heading": 317,
+      "speed": 17.6,
       "isDark": false,
       "mobileStatus": "Collecting Material",
-      "totalPayout": 6402
+      "totalPayout": 278
     },
     {
       "id": "V-12",
       "name": "DeepBlue Recovery Mobile Unit 3",
       "type": "Scrap Hauler",
-      "lat": "46.50",
-      "lng": "-168.60",
-      "heading": 185,
-      "speed": 12.2,
+      "lat": "-42.50",
+      "lng": "-6.19",
+      "heading": 206,
+      "speed": 12.8,
       "isDark": false,
       "mobileStatus": "Collecting Material",
-      "totalPayout": 13417
+      "totalPayout": 4712
     },
     {
       "id": "V-13",
       "name": "AquaSalvage Mobile Unit 4",
       "type": "Waste Extractor",
-      "lat": "-9.56",
-      "lng": "21.02",
-      "heading": 176,
-      "speed": 12.4,
+      "lat": "30.22",
+      "lng": "-30.36",
+      "heading": 117,
+      "speed": 12.2,
       "isDark": false,
-      "mobileStatus": "En Route to Target",
-      "totalPayout": 13843
+      "mobileStatus": "Collecting Material",
+      "totalPayout": 1872
     },
     {
       "id": "V-14",
       "name": "Global Grid Collectors Mobile Unit 5",
       "type": "Scrap Hauler",
-      "lat": "58.96",
-      "lng": "63.27",
-      "heading": 354,
-      "speed": 16.1,
+      "lat": "-0.02",
+      "lng": "-115.12",
+      "heading": 62,
+      "speed": 6.9,
       "isDark": false,
       "mobileStatus": "Idle",
-      "totalPayout": 2858
+      "totalPayout": 8629
     },
     {
       "id": "V-15",
       "name": "OceanClear Logistics Mobile Unit 6",
       "type": "Scrap Hauler",
-      "lat": "-47.89",
-      "lng": "18.57",
-      "heading": 294,
-      "speed": 7.1,
+      "lat": "35.83",
+      "lng": "-142.56",
+      "heading": 338,
+      "speed": 8,
       "isDark": false,
       "mobileStatus": "En Route to Target",
-      "totalPayout": 2243
+      "totalPayout": 3249
     },
     {
       "id": "V-16",
       "name": "TideSweepers Inc Mobile Unit 7",
       "type": "Waste Extractor",
-      "lat": "-26.21",
-      "lng": "146.37",
-      "heading": 168,
-      "speed": 17.7,
+      "lat": "-19.58",
+      "lng": "-100.62",
+      "heading": 105,
+      "speed": 6.7,
       "isDark": false,
-      "mobileStatus": "Idle",
-      "totalPayout": 9377
+      "mobileStatus": "En Route to Target",
+      "totalPayout": 4700
     },
     {
       "id": "V-17",
       "name": "DeepBlue Recovery Mobile Unit 8",
       "type": "Scrap Hauler",
-      "lat": "-39.55",
-      "lng": "-42.98",
-      "heading": 342,
-      "speed": 17.2,
+      "lat": "43.33",
+      "lng": "-43.74",
+      "heading": 142,
+      "speed": 10.4,
       "isDark": false,
-      "mobileStatus": "En Route to Target",
-      "totalPayout": 10389
+      "mobileStatus": "Collecting Material",
+      "totalPayout": 3182
     },
     {
       "id": "V-18",
       "name": "AquaSalvage Mobile Unit 9",
       "type": "Scrap Hauler",
-      "lat": "11.59",
-      "lng": "32.07",
-      "heading": 47,
-      "speed": 13.3,
+      "lat": "5.94",
+      "lng": "-42.59",
+      "heading": 170,
+      "speed": 16.8,
       "isDark": false,
       "mobileStatus": "Collecting Material",
-      "totalPayout": 5576
+      "totalPayout": 1259
     },
     {
       "id": "V-19",
       "name": "Global Grid Collectors Mobile Unit 10",
       "type": "Waste Extractor",
-      "lat": "19.68",
-      "lng": "118.29",
-      "heading": 319,
-      "speed": 15.2,
+      "lat": "-53.01",
+      "lng": "-67.41",
+      "heading": 175,
+      "speed": 15.4,
       "isDark": false,
-      "mobileStatus": "Collecting Material",
-      "totalPayout": 8131
+      "mobileStatus": "En Route to Target",
+      "totalPayout": 10568
     },
     {
       "id": "V-20",
       "name": "OceanClear Logistics Mobile Unit 11",
       "type": "Scrap Hauler",
-      "lat": "-34.93",
-      "lng": "109.72",
-      "heading": 3,
-      "speed": 11.5,
+      "lat": "33.08",
+      "lng": "175.17",
+      "heading": 48,
+      "speed": 12.5,
       "isDark": false,
-      "mobileStatus": "Collecting Material",
-      "totalPayout": 3005
+      "mobileStatus": "Idle",
+      "totalPayout": 12607
     },
     {
       "id": "V-21",
       "name": "TideSweepers Inc Mobile Unit 12",
       "type": "Scrap Hauler",
-      "lat": "-56.06",
-      "lng": "140.66",
-      "heading": 53,
-      "speed": 16.3,
+      "lat": "-55.51",
+      "lng": "163.01",
+      "heading": 265,
+      "speed": 9.9,
       "isDark": false,
-      "mobileStatus": "En Route to Target",
-      "totalPayout": 7713
+      "mobileStatus": "Collecting Material",
+      "totalPayout": 921
     },
     {
       "id": "V-22",
       "name": "DeepBlue Recovery Mobile Unit 13",
       "type": "Waste Extractor",
-      "lat": "-43.54",
-      "lng": "105.32",
-      "heading": 339,
-      "speed": 8.2,
+      "lat": "-15.55",
+      "lng": "19.38",
+      "heading": 195,
+      "speed": 8,
       "isDark": false,
       "mobileStatus": "Idle",
-      "totalPayout": 13582
+      "totalPayout": 12909
     },
     {
       "id": "V-23",
       "name": "AquaSalvage Mobile Unit 14",
       "type": "Scrap Hauler",
-      "lat": "24.56",
-      "lng": "-45.30",
-      "heading": 12,
-      "speed": 10.7,
+      "lat": "-39.39",
+      "lng": "-49.73",
+      "heading": 316,
+      "speed": 13.9,
       "isDark": false,
       "mobileStatus": "En Route to Target",
-      "totalPayout": 13382
+      "totalPayout": 11760
     },
     {
       "id": "V-24",
       "name": "Global Grid Collectors Mobile Unit 15",
       "type": "Scrap Hauler",
-      "lat": "-57.63",
-      "lng": "-126.07",
-      "heading": 142,
-      "speed": 11.3,
+      "lat": "-24.18",
+      "lng": "-155.42",
+      "heading": 71,
+      "speed": 16.4,
       "isDark": false,
-      "mobileStatus": "Collecting Material",
-      "totalPayout": 4677
+      "mobileStatus": "En Route to Target",
+      "totalPayout": 3670
     },
     {
       "id": "V-25",
       "name": "OceanClear Logistics Mobile Unit 16",
       "type": "Waste Extractor",
-      "lat": "19.75",
-      "lng": "23.37",
-      "heading": 11,
-      "speed": 15.3,
+      "lat": "40.31",
+      "lng": "145.06",
+      "heading": 67,
+      "speed": 6.7,
       "isDark": false,
-      "mobileStatus": "En Route to Target",
-      "totalPayout": 3228
+      "mobileStatus": "Collecting Material",
+      "totalPayout": 12587
     },
     {
       "id": "V-26",
       "name": "TideSweepers Inc Mobile Unit 17",
       "type": "Scrap Hauler",
-      "lat": "25.93",
-      "lng": "-127.49",
-      "heading": 65,
-      "speed": 16.8,
+      "lat": "-17.41",
+      "lng": "164.09",
+      "heading": 301,
+      "speed": 10.8,
       "isDark": false,
-      "mobileStatus": "Collecting Material",
-      "totalPayout": 14695
+      "mobileStatus": "En Route to Target",
+      "totalPayout": 2916
     },
     {
       "id": "V-27",
       "name": "DeepBlue Recovery Mobile Unit 18",
       "type": "Scrap Hauler",
-      "lat": "57.16",
-      "lng": "-152.71",
-      "heading": 36,
-      "speed": 6.2,
+      "lat": "-36.96",
+      "lng": "-10.13",
+      "heading": 137,
+      "speed": 14.9,
       "isDark": false,
-      "mobileStatus": "Idle",
-      "totalPayout": 5972
+      "mobileStatus": "Collecting Material",
+      "totalPayout": 2916
     }
   ],
   "threats": [
     {
       "id": "J-1000",
-      "type": "Chemical Absorbents",
-      "source": "Orbital Satellite (Surface)",
+      "type": "Ghost Nets Accumulation",
+      "source": "Benthic IoT Buoy (Depth Sonar)",
       "severity": "Moderate",
-      "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "14.79",
-      "lng": "59.03",
-      "timestamp": "2026-04-01T08:29:29.697Z"
+      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
+      "lat": "5.41",
+      "lng": "154.36",
+      "timestamp": "2026-04-01T03:26:05.815Z"
     },
     {
       "id": "J-1001",
       "type": "Chemical Absorbents",
       "source": "Orbital Satellite (Surface)",
-      "severity": "Critical",
+      "severity": "Heavy",
       "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "56.18",
-      "lng": "-112.64",
-      "timestamp": "2026-04-01T14:51:48.126Z"
+      "lat": "40.64",
+      "lng": "113.40",
+      "timestamp": "2026-04-02T01:39:13.981Z"
     },
     {
       "id": "J-1002",
       "type": "Timber/Log Debris",
       "source": "Orbital Satellite (Surface)",
-      "severity": "Moderate",
+      "severity": "Heavy",
       "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "46.94",
-      "lng": "-92.92",
-      "timestamp": "2026-03-31T23:07:02.030Z"
+      "lat": "33.58",
+      "lng": "61.87",
+      "timestamp": "2026-04-02T01:02:24.384Z"
     },
     {
       "id": "J-1003",
-      "type": "Ghost Nets Accumulation",
-      "source": "Benthic IoT Buoy (Depth Sonar)",
-      "severity": "Moderate",
-      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
-      "lat": "-47.89",
-      "lng": "-117.95",
-      "timestamp": "2026-04-01T23:10:40.632Z"
-    },
-    {
-      "id": "J-1004",
-      "type": "Plastic Debris Gyre",
+      "type": "Timber/Log Debris",
       "source": "Orbital Satellite (Surface)",
       "severity": "Heavy",
       "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "52.71",
-      "lng": "157.95",
-      "timestamp": "2026-04-01T00:09:13.248Z"
+      "lat": "51.99",
+      "lng": "-12.51",
+      "timestamp": "2026-04-01T21:57:18.974Z"
+    },
+    {
+      "id": "J-1004",
+      "type": "Scrap Metal Deposit",
+      "source": "Benthic IoT Buoy (Depth Sonar)",
+      "severity": "Critical",
+      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
+      "lat": "18.02",
+      "lng": "36.31",
+      "timestamp": "2026-04-02T00:09:37.115Z"
     },
     {
       "id": "J-1005",
-      "type": "Timber/Log Debris",
-      "source": "Orbital Satellite (Surface)",
+      "type": "Scrap Metal Deposit",
+      "source": "Benthic IoT Buoy (Depth Sonar)",
       "severity": "Massive",
-      "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "39.60",
-      "lng": "-66.43",
-      "timestamp": "2026-04-01T23:22:07.606Z"
+      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
+      "lat": "-13.08",
+      "lng": "-154.58",
+      "timestamp": "2026-03-31T23:22:03.924Z"
     },
     {
       "id": "J-1006",
-      "type": "Plastic Debris Gyre",
+      "type": "Chemical Absorbents",
       "source": "Orbital Satellite (Surface)",
-      "severity": "Critical",
+      "severity": "Moderate",
       "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "-19.64",
-      "lng": "164.73",
-      "timestamp": "2026-04-01T18:42:53.119Z"
+      "lat": "46.06",
+      "lng": "175.01",
+      "timestamp": "2026-03-31T22:51:24.997Z"
     },
     {
       "id": "J-1007",
       "type": "Chemical Absorbents",
       "source": "Orbital Satellite (Surface)",
-      "severity": "Critical",
+      "severity": "Heavy",
       "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "-48.68",
-      "lng": "-89.98",
-      "timestamp": "2026-04-01T06:19:16.455Z"
+      "lat": "26.77",
+      "lng": "-94.98",
+      "timestamp": "2026-04-01T06:35:06.177Z"
     },
     {
       "id": "J-1008",
-      "type": "Chemical Absorbents",
-      "source": "Orbital Satellite (Surface)",
-      "severity": "Massive",
-      "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "-23.17",
-      "lng": "121.97",
-      "timestamp": "2026-04-01T00:07:59.677Z"
+      "type": "Ghost Nets Accumulation",
+      "source": "Benthic IoT Buoy (Depth Sonar)",
+      "severity": "Moderate",
+      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
+      "lat": "-22.31",
+      "lng": "35.17",
+      "timestamp": "2026-04-01T14:23:15.039Z"
     },
     {
       "id": "J-1009",
-      "type": "Ghost Nets Accumulation",
-      "source": "Benthic IoT Buoy (Depth Sonar)",
-      "severity": "Massive",
-      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
-      "lat": "23.31",
-      "lng": "67.62",
-      "timestamp": "2026-04-01T04:03:08.570Z"
-    },
-    {
-      "id": "J-1010",
-      "type": "Ghost Nets Accumulation",
-      "source": "Benthic IoT Buoy (Depth Sonar)",
-      "severity": "Heavy",
-      "description": "Target verified by submerged acoustic pings. Awaiting mobile vendor dispatch.",
-      "lat": "-36.42",
-      "lng": "-47.39",
-      "timestamp": "2026-04-01T00:32:34.701Z"
-    },
-    {
-      "id": "J-1011",
-      "type": "Chemical Absorbents",
+      "type": "Plastic Debris Gyre",
       "source": "Orbital Satellite (Surface)",
       "severity": "Moderate",
       "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
-      "lat": "-9.80",
-      "lng": "29.29",
-      "timestamp": "2026-04-01T05:44:26.664Z"
+      "lat": "37.47",
+      "lng": "53.25",
+      "timestamp": "2026-04-01T10:49:17.733Z"
+    },
+    {
+      "id": "J-1010",
+      "type": "Plastic Debris Gyre",
+      "source": "Orbital Satellite (Surface)",
+      "severity": "Moderate",
+      "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
+      "lat": "28.96",
+      "lng": "-13.21",
+      "timestamp": "2026-04-01T03:46:44.586Z"
+    },
+    {
+      "id": "J-1011",
+      "type": "Plastic Debris Gyre",
+      "source": "Orbital Satellite (Surface)",
+      "severity": "Critical",
+      "description": "Target verified by visual/NIR bands. Awaiting mobile vendor dispatch.",
+      "lat": "-14.73",
+      "lng": "-56.01",
+      "timestamp": "2026-04-01T23:31:31.182Z"
     }
   ]
 }
