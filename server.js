@@ -90,10 +90,13 @@ async function seedDatabase() {
   }));
 
   const vendorNames = ['OceanClear Logistics', 'TideSweepers Inc', 'DeepBlue Recovery', 'AquaSalvage', 'Global Grid Collectors'];
+  const statuses = ['Idle', 'En Route to Target', 'Collecting Material'];
   const vessels = Array.from({length: 18}, (_, i) => ({
-    id: `V-${i+10}`, name: vendorNames[i%5] + ' ' + (i+1),
+    id: `V-${i+10}`, name: vendorNames[i%5] + ' Mobile Unit ' + (i+1),
     type: i%3===0 ? 'Waste Extractor' : 'Scrap Hauler',
-    lat: rLat(), lng: rLng(), heading: parseInt(rNum(0, 360)), speed: parseFloat(rNum(6, 18)), isDark: false
+    lat: rLat(), lng: rLng(), heading: parseInt(rNum(0, 360)), speed: parseFloat(rNum(6, 18)), isDark: false,
+    mobileStatus: statuses[Math.floor(Math.random()*statuses.length)],
+    totalPayout: parseInt(rNum(100, 15000))
   }));
 
   const matTypes = ['Plastic Debris Gyre', 'Ghost Nets Accumulation', 'Timber/Log Debris', 'Scrap Metal Deposit', 'Chemical Absorbents'];
@@ -101,7 +104,7 @@ async function seedDatabase() {
   const threats = Array.from({length: 12}, (_, i) => ({
     id: `J-${1000+i}`, type: matTypes[Math.floor(Math.random()*matTypes.length)],
     severity: severities[Math.floor(Math.random()*severities.length)],
-    description: `Satellite detected major surface anomaly. Vendor dispatch required immediately.`,
+    description: `Satellite detected major surface anomaly. Awaiting vendor dispatch via mobile app.`,
     lat: rLat(), lng: rLng(), timestamp: new Date(Date.now() - Math.random() * 100000000).toISOString()
   }));
 
@@ -109,9 +112,7 @@ async function seedDatabase() {
     admin: { username: 'admin', password: hashedPassword, role: 'operator', credits: 0 },
     sensors,
     vessels,
-    threats,
-    history: { '2026': { plasticDensity: 88, avgSST: 28.5, threatCount: 84 } },
-    reports: [ { id: 'R1', title: 'Global Grid Intelligence Dump', date: '2026-04-02', size: '142 MB' } ]
+    threats
   };
   writeDB(seed);
 }
@@ -175,11 +176,6 @@ app.get('/api/dashboard', protect, async (req, res) => {
   res.json({ stats: metrics, sensors, vessels });
 });
 
-app.get('/api/analytics', protect, async (req, res) => {
-  if (isMongo) res.json({ sensors: await Sensor.find() });
-  else res.json({ sensors: readDB().sensors });
-});
-
 app.get('/api/threats', protect, async (req, res) => {
   if (isMongo) {
     const t = await Threat.find();
@@ -208,17 +204,12 @@ app.delete('/api/threats/:id', protect, async (req, res) => {
   }
 });
 
-app.get('/api/history', protect, async (req, res) => {
+app.get('/api/vendors', protect, async (req, res) => {
   if (isMongo) {
-    const h = await History.find();
-    const map = {}; h.forEach(i=>map[i.year]=i);
-    res.json(map);
-  } else res.json(readDB().history);
-});
-
-app.get('/api/reports', protect, async (req, res) => {
-  if (isMongo) res.json({ reports: await Report.find() });
-  else res.json({ reports: readDB().reports });
+    res.json(await Vessel.find());
+  } else {
+    res.json(readDB().vessels);
+  }
 });
 
 // ── Start Server ────────────────────────────────────────────

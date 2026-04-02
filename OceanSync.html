@@ -196,11 +196,9 @@
       <div class="brand"><div class="brand-icon">O</div><h1>OceanSync</h1></div>
       <div class="nav-label">Dashboards</div>
       <button class="nav-btn active" onclick="switchPage('view-radar',this)">Overview Radar</button>
-      <button class="nav-btn" onclick="switchPage('view-analytics',this)">Telemetry Data</button>
-      <button class="nav-btn" onclick="switchPage('view-reports',this)">Export Hub</button>
-      <div class="nav-label">Analysis</div>
+      <div class="nav-label">Business Operations</div>
+      <button class="nav-btn" onclick="switchPage('view-vendors',this)">Vendor Mobile Fleet</button>
       <button class="nav-btn" onclick="switchPage('view-threats',this)">Dispatch Matrix <span class="badge" id="nav-threat-count">0</span></button>
-      <button class="nav-btn" onclick="switchPage('view-history',this)">Historical Timeline</button>
       <div class="nav-label">Settings</div>
       <button class="nav-btn" onclick="switchPage('view-config',this)">System Config</button>
       <div class="nav-bottom"><button class="nav-btn" style="color:var(--text-muted)" onclick="doLogout()">Sign Out</button></div>
@@ -254,47 +252,13 @@
         </div>
       </div>
 
-      <!-- ANALYTICS -->
-      <div id="view-analytics" class="page">
-        <h2>Telemetry Data</h2><p class="subtitle">Global sensor metrics from 16 deployed buoy arrays.</p>
-        <div class="chart-grid">
-          <div class="chart-box full glass"><div class="chart-header"><p>Thermal Variance</p><span>SST vs Benthic (°C)</span></div><div style="position:relative;height:calc(100% - 30px);width:100%"><canvas id="chart-temp"></canvas></div></div>
-          <div class="chart-box glass"><div class="chart-header"><p>Hydrostatic Pressure</p><span>dbar</span></div><div style="position:relative;height:calc(100% - 30px);width:100%"><canvas id="chart-pressure"></canvas></div></div>
-          <div class="chart-box glass"><div class="chart-header"><p>Microplastic Density</p><span>% of limit</span></div><div style="position:relative;height:calc(100% - 30px);width:100%"><canvas id="chart-plastic"></canvas></div></div>
-        </div>
-      </div>
-
-      <!-- REPORTS -->
-      <div id="view-reports" class="page">
-        <h2>Reporting & Export Hub</h2><p class="subtitle">Generate secure archival endpoints.</p>
-        <div class="actions-row">
-          <input type="date" value="2026-04-01" class="date-input">
-          <button class="btn-primary" onclick="generatePDF()">Generate PDF</button>
-          <button class="btn-secondary" onclick="exportJSON()">Export JSON</button>
-          <button class="btn-secondary" onclick="showToast('✓ Secure link copied to clipboard. Link expires in 24h.')">Share Link</button>
-        </div>
-        <div class="table-container"><table><thead><tr><th>Title</th><th>Date</th><th>Size</th><th>Action</th></tr></thead><tbody id="report-body"></tbody></table></div>
-      </div>
-
-      <!-- TIMELINE -->
-      <div id="view-history" class="page">
-        <h2>Historical Timeline</h2><p class="subtitle">Temporal threat progression from 2015 to present.</p>
-        <div class="history-layout">
-          <div class="history-map-wrap">
-            <div class="map-wrapper glass"><div id="history-map"></div></div>
-            <div class="timeline-controls glass">
-              <button class="btn-icon" id="btn-play" onclick="togglePlay()"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-              <input type="range" class="timeline-slider" id="time-slider" min="2015" max="2026" value="2026" oninput="updateTimeline(this.value)">
-              <span class="year-display" id="time-display">2026</span>
-            </div>
-          </div>
-          <div class="glass" style="width:250px;padding:24px">
-            <p style="font-size:.8rem;font-weight:500;margin-bottom:24px">METRICS</p>
-            <div style="margin-bottom:24px"><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">Microplastic Risk</div><div style="font-size:1.5rem;font-family:var(--font-mono);font-weight:500" id="m-plastic">—</div></div>
-            <div style="margin-bottom:24px"><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">Avg Ocean Temp</div><div style="font-size:1.5rem;font-family:var(--font-mono);font-weight:500" id="m-temp">—</div></div>
-            <div><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:4px">Threats Logged</div><div style="font-size:1.5rem;font-family:var(--font-mono);font-weight:500" id="m-threats">—</div></div>
-          </div>
-        </div>
+      <!-- VENDOR FLEET -->
+      <div id="view-vendors" class="page">
+        <h2>Vendor Mobile Fleet Status</h2><p class="subtitle">Live GPS tracking and commercial statuses of contracted mobile units.</p>
+        <div class="table-container"><table>
+          <thead><tr><th>Mobile Unit ID</th><th>Specialization</th><th>Live Coordinates</th><th>Current Status</th><th>Value Generated</th></tr></thead>
+          <tbody id="vendor-body"></tbody>
+        </table></div>
       </div>
 
       <!-- THREATS -->
@@ -369,7 +333,7 @@
 
     function enterApp() {
       const g=document.getElementById('login-gate'); g.style.transition='opacity .4s'; g.style.opacity=0;
-      setTimeout(()=>{ g.style.display='none'; document.getElementById('app-container').style.display='flex'; loadDashboard(); loadAnalytics(); loadReports(); loadThreats(); loadCredits(); updateTimeline(2026); showToast('Welcome back, Operator.'); },400);
+      setTimeout(()=>{ g.style.display='none'; document.getElementById('app-container').style.display='flex'; loadDashboard(); loadVendors(); loadThreats(); loadCredits(); showToast('Welcome back, Logistics Coordinator.'); },400);
     }
 
     function doLogout() { localStorage.removeItem('os_token'); location.reload(); }
@@ -450,49 +414,33 @@
       },4000);
     }
 
-    /* ─── ANALYTICS (CHARTS) ───────────────────────── */
-    let tCh,pCh,bCh;
-    async function loadAnalytics() {
-      const res = await fetch(API+'/api/analytics',{headers:headers()});
-      const {sensors} = await res.json();
-      initCharts(sensors);
-    }
-    function initCharts(sensors) {
-      if(tCh)return;
-      Chart.defaults.color='#888'; Chart.defaults.font.family="'JetBrains Mono',monospace";
-      const lbls = sensors.map(s=>s.id);
-      const sstD = sensors.map(s=>s.sst);
-      const benD = sensors.map(s=>s.benthic);
-      const presD = sensors.map(s=>s.pressure);
-      const pollD = sensors.map(s=>s.pollution);
-
-      const ctx1 = document.getElementById('chart-temp').getContext('2d');
-      const g1 = ctx1.createLinearGradient(0,0,0,350); g1.addColorStop(0,'rgba(255,255,255,0.15)'); g1.addColorStop(1,'rgba(255,255,255,0)');
-      const g2 = ctx1.createLinearGradient(0,0,0,350); g2.addColorStop(0,'rgba(0,112,243,0.3)'); g2.addColorStop(1,'rgba(0,112,243,0)');
-      tCh = new Chart(ctx1, { type:'line', data:{labels:lbls, datasets:[
-        {label:'SST (°C)',data:sstD,borderColor:'#fff',backgroundColor:g1,fill:true,tension:.3},
-        {label:'Benthic (°C)',data:benD,borderColor:'#0070F3',backgroundColor:g2,fill:true,tension:.3}
-      ]}, options:{responsive:true,maintainAspectRatio:false,scales:{y:{grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{color:'rgba(255,255,255,.03)'}}}}});
-
-      pCh = new Chart(document.getElementById('chart-pressure'), { type:'line', data:{labels:lbls, datasets:[
-        {label:'Pressure (dbar)',data:presD,borderColor:'#888',borderDash:[5,5],tension:.2,pointBackgroundColor:'#fff'}
-      ]}, options:{responsive:true,maintainAspectRatio:false,scales:{y:{grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{color:'rgba(255,255,255,.03)'}}}}});
-
-      bCh = new Chart(document.getElementById('chart-plastic'), { type:'bar', data:{labels:lbls, datasets:[
-        {label:'Pollution %',data:pollD,backgroundColor:'rgba(255,255,255,.15)',borderColor:'rgba(255,255,255,.3)',borderWidth:1,borderRadius:4}
-      ]}, options:{responsive:true,maintainAspectRatio:false,scales:{y:{max:100,grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{color:'rgba(255,255,255,.03)'}}}}});
-    }
-
-    /* ─── REPORTS ───────────────────────────────────── */
-    async function loadReports() {
-      const res = await fetch(API+'/api/reports',{headers:headers()});
-      const {reports} = await res.json();
-      const tb = document.getElementById('report-body'); tb.innerHTML='';
-      reports.forEach(r=>{
-        const tr=document.createElement('tr');
-        tr.innerHTML=`<td>${r.title}</td><td style="font-family:var(--font-mono);color:var(--text-muted)">${r.date}</td><td style="font-family:var(--font-mono);color:var(--text-muted)">${r.size}</td><td><span class="dl-btn" onclick="showToast('✓ Downloading encrypted archive: ${r.title}')">Download</span></td>`;
-        tb.appendChild(tr);
-      });
+    /* ─── VENDOR FLEET ─────────────────────────────── */
+    async function loadVendors() {
+      try {
+        const res = await fetch(API+'/api/vendors', {headers:headers()});
+        const vendors = await res.json();
+        const tb = document.getElementById('vendor-body');
+        tb.innerHTML = '';
+        vendors.forEach(v => {
+          const tr = document.createElement('tr');
+          // Add a pulsing blue dot for mobile status
+          const statusDot = v.mobileStatus === 'Idle' ? 'rgba(255,255,255,0.4)' : (v.mobileStatus === 'En Route to Target' ? 'var(--orange)' : 'var(--green)');
+          
+          tr.innerHTML = `
+            <td style="font-weight:500">${v.name} <br><span style="font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono)">${v.id}</span></td>
+            <td><span class="badge" style="background:rgba(255,255,255,0.1)">${v.type}</span></td>
+            <td style="font-family:var(--font-mono);color:var(--blue)">[${v.lat}, ${v.lng}]</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${statusDot};box-shadow:0 0 8px ${statusDot}"></span>
+                ${v.mobileStatus}
+              </div>
+            </td>
+            <td style="font-family:var(--font-mono);font-weight:600;color:var(--green)">$${(v.totalPayout || 0).toLocaleString()}</td>
+          `;
+          tb.appendChild(tr);
+        });
+      } catch(e) { console.error("Error loading vendors:", e); }
     }
 
     /* ─── THREATS ───────────────────────────────────── */
@@ -552,36 +500,7 @@
       t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
     }
 
-    /* ─── HISTORY (TIMELINE) ───────────────────────── */
-    let mapH, hMarker, historyData={};
-    function initHistoryMap() {
-      mapH=L.map('history-map',{zoomControl:false,attributionControl:false}).setView([10,-80],3);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{noWrap:true}).addTo(mapH);
-      hMarker=L.marker([25,-75],{icon:L.divIcon({className:'pulse-orange',iconSize:[40,40]})}).addTo(mapH);
-      loadAllHistory();
-    }
-    async function loadAllHistory() {
-      const res = await fetch(API+'/api/history',{headers:headers()});
-      historyData = await res.json();
-      updateTimeline(2026);
-    }
-    let pInt;
-    function togglePlay() {
-      const b=document.getElementById('btn-play'),s=document.getElementById('time-slider');
-      if(pInt){clearInterval(pInt);pInt=null;b.innerHTML='<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';return;}
-      b.innerHTML='<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-      pInt=setInterval(()=>{let v=parseInt(s.value);if(v>=2026)v=2014;s.value=v+1;updateTimeline(s.value);},1000);
-    }
-    function updateTimeline(yr) {
-      document.getElementById('time-display').innerText=yr;
-      const d=historyData[yr];
-      if(d){
-        document.getElementById('m-plastic').innerText=d.plasticDensity+'%';
-        document.getElementById('m-temp').innerText=d.avgSST+'°C';
-        document.getElementById('m-threats').innerText=d.threatCount;
-        if(hMarker){const sz=12+((yr-2015)/11)*50;hMarker.setIcon(L.divIcon({className:'pulse-orange',iconSize:[sz,sz]}));}
-      }
-    }
+    /* ─── VENDOR DISPATCH LOGIC ────────────── */
 
     /* ─── NEW FEATURES ─────────────────────────────── */
     function toggleNotifs() {
@@ -601,53 +520,9 @@
       document.querySelector('.btn-icon span').style.display='block';
     }, 45000);
 
-    function generatePDF() {
-      const { jsPDF } = window.jspdf;
-      if (!jsPDF) { showToast("❌ jsPDF library not loaded."); return; }
-      const doc = new jsPDF();
-      const dateString = document.querySelector('.date-input')?.value || new Date().toISOString().split('T')[0];
-      
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(22);
-      doc.text("OceanSync Intelligence Report", 20, 30);
-      
-      doc.setFontSize(12);
-      doc.setFont("helvetica", "normal");
-      doc.text(`Clearance: TOP SECRET | Operator: Admin | Date: ${dateString}`, 20, 45);
-      
-      doc.line(20, 50, 190, 50);
-      
-      doc.setFont("helvetica", "bold");
-      doc.text("SYSTEM STATUS OVERVIEW", 20, 65);
-      
-      doc.setFont("helvetica", "normal");
-      doc.text(`Total Active Sensor Arrays: ${document.getElementById('s-buoys')?.innerText || '—'}`, 20, 80);
-      doc.text(`Tracked Vessel Count: ${document.getElementById('s-vessels')?.innerText || '—'}`, 20, 90);
-      doc.text(`Active Severity Threats: ${document.getElementById('s-threats')?.innerText || '—'}`, 20, 100);
-      doc.text(`Global Mean SST Anomaly: ${document.getElementById('s-sst')?.innerText || '—'}`, 20, 110);
-      
-      doc.line(20, 120, 190, 120);
-      doc.text("END OF REPORT", 20, 135);
-      
-      doc.save(`OceanSync_Brief_${dateString}.pdf`);
-      showToast('✓ Executive Brief PDF generated and downloaded.');
-    }
+    // PDF Generator Removed for Business Pivot
 
-    async function exportJSON() {
-      const dateString = document.querySelector('.date-input')?.value || new Date().toISOString().split('T')[0];
-      try {
-        const res = await fetch(API+'/api/analytics', {headers:headers()});
-        const data = await res.json();
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
-        const a = document.createElement('a');
-        a.href = dataStr;
-        a.download = `Telemetry_Dump_${dateString}.json`;
-        a.click();
-        showToast('✓ Raw Telemetry JSON exported successfully.');
-      } catch(e) {
-        showToast('❌ Export failed to retrieve data.');
-      }
-    }
+    // JSON Export Removed for Business Pivot
 
     let gpsMarker = null;
     function triggerMapGPS() {
