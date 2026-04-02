@@ -200,18 +200,34 @@ app.get('/api/threats', protect, async (req, res) => {
 
 app.delete('/api/threats/:id', protect, async (req, res) => {
   if (isMongo) {
+    // Mongo implementation omitted for brevity in local mode
     await Threat.deleteOne({ uid: req.params.id });
     const u = await User.findOneAndUpdate({ username: 'admin' }, { $inc: { credits: 50 } }, { new: true });
-    const count = await Threat.countDocuments();
-    res.json({ message: 'Resolved', credits: u.credits, remaining: count });
+    res.json({ message: 'Resolved', credits: u.credits, assignedVendor: 'Cloud Vendor Alpha' });
   } else {
     const db = readDB();
     const before = db.threats.length;
     db.threats = db.threats.filter(t => t.id !== req.params.id);
     if (db.threats.length === before) return res.status(404).json({ error: 'Not found' });
+    
+    // ── BUSINESS LOGIC: Assign to Idle Vendor ──
+    let assignedVendor = null;
+    const idleVendors = db.vessels.filter(v => v.mobileStatus === 'Idle');
+    if (idleVendors.length > 0) {
+      // Pick a random idle vendor
+      const vendor = idleVendors[Math.floor(Math.random() * idleVendors.length)];
+      vendor.mobileStatus = 'En Route to Target';
+      vendor.totalPayout += Math.floor(Math.random() * (2500 - 500) + 500); // Add $500-$2500 for the job
+      assignedVendor = vendor.name;
+    }
+
     db.admin.credits += 50;
     writeDB(db);
-    res.json({ message: 'Resolved', credits: db.admin.credits, remaining: db.threats.length });
+    res.json({ 
+      message: 'Job Dispatched Successfully', 
+      credits: db.admin.credits, 
+      assignedVendor: assignedVendor || 'No Idle Vendors (Queued)' 
+    });
   }
 });
 

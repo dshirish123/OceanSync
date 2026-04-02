@@ -306,6 +306,13 @@
           }
         });
       });
+      
+      // Auto-poll Vendor Fleet GPS to mimic live tracking screen
+      setInterval(() => {
+        if(document.getElementById('view-vendors').classList.contains('active')) {
+          loadVendors();
+        }
+      }, 5000);
     });
 
     async function doLogin() {
@@ -496,7 +503,13 @@
         allThreats=allThreats.filter(t=>t.id!==id);
         renderThreats();
         document.getElementById('credit-score').innerText=data.credits;
-        showToast('✓ Local vendor dispatched! +50 Eco-Credits Awarded.');
+        
+        if (data.assignedVendor && data.assignedVendor !== 'No Idle Vendors (Queued)') {
+           showToast(`✓ Job Assigned: [${data.assignedVendor}] is En Route. Payout routing active.`);
+           loadVendors(); // Sycing Vendor table instantly
+        } else {
+           showToast('✓ Job Queued locally. +50 Eco-Credits Awarded.');
+        }
       },400);
     }
 
@@ -615,6 +628,12 @@
         }
       }, 2500);
     }
+    // Live Map ping loop for purely visual simulation of mobile updates
+    setInterval(() => {
+      if(document.getElementById('view-vendors').classList.contains('active')) {
+        loadVendors();
+      }
+    }, 12000);
   </script>
 </body>
 
