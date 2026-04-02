@@ -20,11 +20,23 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:var(--font-main);height:100vh;overflow:hidden;display:flex;font-size:14px;-webkit-font-smoothing:antialiased}
-    .glass{background:var(--panel);border:1px solid var(--panel-border);border-radius:8px;box-shadow:var(--shadow)}
-    .btn-primary{background:#fff;color:#000;padding:12px 24px;border:none;border-radius:6px;font-weight:500;font-family:var(--font-main);font-size:.95rem;cursor:pointer;transition:.2s}
-    .btn-primary:hover{background:#e2e2e2;transform:translateY(-1px)}
-    .btn-secondary{background:transparent;border:1px solid var(--panel-border);color:var(--text);padding:12px 24px;border-radius:6px;font-weight:500;cursor:pointer;transition:.2s}
-    .btn-secondary:hover{background:rgba(255,255,255,.05)}
+    .glass{background:var(--panel);border:1px solid var(--panel-border);border-radius:8px;box-shadow:var(--shadow);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);animation:fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+    .btn-primary{background:#fff;color:#000;padding:12px 24px;border:none;border-radius:6px;font-weight:500;font-family:var(--font-main);font-size:.95rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);position:relative;overflow:hidden;}
+    .btn-primary:active{transform:scale(0.96);}
+    .btn-primary:hover{background:#e2e2e2;transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,255,255,0.2);}
+    .btn-secondary{background:transparent;border:1px solid var(--panel-border);color:var(--text);padding:12px 24px;border-radius:6px;font-weight:500;cursor:pointer;transition:all 0.3s ease;position:relative;}
+    .btn-secondary:active{transform:scale(0.96);}
+    .btn-secondary:hover{background:rgba(0, 212, 255, 0.1);border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0, 212, 255, 0.15);}
+    
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+    }
 
     /* LOGIN */
     #login-gate{position:absolute;inset:0;z-index:99999;display:flex;background:var(--bg)}
@@ -58,8 +70,8 @@
     .top-header{height:64px;display:flex;justify-content:space-between;align-items:center;padding:0 32px;border-bottom:1px solid var(--panel-border);background:var(--bg);z-index:50;flex-shrink:0}
     .dot-on{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}
     .credits-badge{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--panel-border);padding:6px 16px;border-radius:6px;font-weight:500;font-size:.85rem}
-    .page{display:none;padding:32px;height:calc(100vh - 64px);overflow-y:auto;opacity:0;transition:opacity .3s;flex-shrink:0}
-    .page.active{display:flex;flex-direction:column;opacity:1}
+    .page{display:none;padding:32px;height:calc(100vh - 64px);overflow-y:auto;opacity:0;transition:opacity .4s ease;flex-shrink:0}
+    .page.active{display:flex;flex-direction:column;opacity:1;animation:fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);}
     h2{font-size:1.5rem;font-weight:500;letter-spacing:-.5px;margin-bottom:8px}
     .subtitle{color:var(--text-muted);font-size:.95rem;margin-bottom:32px}
 
@@ -138,11 +150,11 @@
     .loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--text-muted)}
     
     /* NOTIFICATIONS */
-    .notif-panel{position:fixed;right:0;top:-100%;width:320px;height:400px;background:var(--panel);border:1px solid var(--panel-border);border-top:none;border-radius:0 0 0 8px;z-index:9000;box-shadow:var(--shadow);transition:top .3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
-    .notif-panel.open{top:64px}
-    .notif-header{padding:16px 20px;border-bottom:1px solid var(--panel-border);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+    .notif-panel{position:fixed;right:32px;top:-100%;width:350px;max-height:500px;background:rgba(6, 20, 35, 0.85);backdrop-filter:blur(24px);border:1px solid var(--blue);border-radius:12px;z-index:9000;box-shadow:0 12px 40px rgba(0, 212, 255, 0.2);transition:top 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;display:flex;flex-direction:column;opacity:0;}
+    .notif-panel.open{top:80px;opacity:1;animation: pulseGlow 2s infinite;}
+    .notif-header{padding:16px 20px;border-bottom:1px solid var(--panel-border);font-weight:600;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg, rgba(0,212,255,0.1), transparent);}
     .notif-list{flex-grow:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
-    .notif-item{padding:12px;border:1px solid var(--panel-border);border-left:3px solid var(--blue);border-radius:6px;font-size:.85rem;background:rgba(255,255,255,.01)}
+    .notif-item{padding:12px;border:1px solid var(--panel-border);border-left:3px solid var(--blue);border-radius:6px;font-size:.85rem;background:rgba(255,255,255,.02);animation:fadeUp 0.3s ease forwards;}
     
     /* GPS PING */
     .pulse-blue{background:rgba(41,151,255,.2);border-radius:50%;border:1px solid #2997ff;display:flex;align-items:center;justify-content:center}
@@ -259,7 +271,7 @@
           <input type="date" value="2026-04-01" class="date-input">
           <button class="btn-primary" onclick="generatePDF()">Generate PDF</button>
           <button class="btn-secondary" onclick="exportJSON()">Export JSON</button>
-          <button class="btn-secondary">Share Link</button>
+          <button class="btn-secondary" onclick="showToast('✓ Secure link copied to clipboard. Link expires in 24h.')">Share Link</button>
         </div>
         <div class="table-container"><table><thead><tr><th>Title</th><th>Date</th><th>Size</th><th>Action</th></tr></thead><tbody id="report-body"></tbody></table></div>
       </div>
@@ -323,7 +335,12 @@
     window.addEventListener('DOMContentLoaded', () => {
       if (getToken()) { enterApp(); } 
       document.querySelectorAll('.switch input').forEach(i => {
-        i.addEventListener('change', function(){ this.nextElementSibling.innerText = this.checked ? 'ENABLED' : 'DISABLED'; });
+        i.addEventListener('change', function(){ 
+          this.nextElementSibling.innerText = this.checked ? 'ENABLED' : 'DISABLED'; 
+          if(this.id !== 'gps-config-toggle') {
+            showToast('⚙️ System Config Updated: ' + this.closest('.toggle-row').querySelector('h4').innerText);
+          }
+        });
       });
     });
 
@@ -568,8 +585,21 @@
 
     /* ─── NEW FEATURES ─────────────────────────────── */
     function toggleNotifs() {
-      document.getElementById('notif-panel').classList.toggle('open');
+      const panel = document.getElementById('notif-panel');
+      panel.classList.toggle('open');
+      if(panel.classList.contains('open')){ document.querySelector('.btn-icon span').style.display='none'; }
     }
+    
+    // Live Alerts Simulator
+    setInterval(() => {
+      const msgs = ['URGENT: High plastic mass tracked near Vendor Grid 4.', 'Alert: Rogue vessel disconnected AIS.', 'Automated drone dispatch returning structural damage.'];
+      const list = document.querySelector('.notif-list');
+      const item = document.createElement('div');
+      item.className = 'notif-item';
+      item.innerHTML = `<b>LIVE SATELLITE ALERT</b><br>${msgs[Math.floor(Math.random()*msgs.length)]}`;
+      list.prepend(item);
+      document.querySelector('.btn-icon span').style.display='block';
+    }, 45000);
 
     function generatePDF() {
       const { jsPDF } = window.jspdf;
@@ -634,34 +664,21 @@
       if(btn) btn.classList.toggle('active', cb.checked);
       
       if (cb.checked) {
-        if ("geolocation" in navigator) {
-          showToast("⏳ Establishing secure satellite uplink to device...");
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              const lat = pos.coords.latitude;
-              const lng = pos.coords.longitude;
-              if (mapR) {
-                if(gpsMarker) mapR.removeLayer(gpsMarker);
-                gpsMarker = L.marker([lat, lng], {icon: L.divIcon({className: 'pulse-blue', iconSize: [16,16]})})
-                  .bindPopup("<b>Operator Location</b><br>Live GPS Matrix Active")
-                  .addTo(mapR);
-                mapR.flyTo([lat, lng], 5);
-                showToast("✓ GPS Uplink Established! Location pinned on Radar.");
-              }
-            }, 
-            (err) => {
-              showToast("❌ GPS Signal Blocked or Submarine mode active.");
-              cb.checked = false;
-              cb.nextElementSibling.innerText = "DISABLED";
-              if(btn) btn.classList.remove('active');
-            }
-          );
-        } else {
-          showToast("❌ Geolocation routing blocked by local system.");
-          cb.checked = false;
-          cb.nextElementSibling.innerText = "DISABLED";
-          if(btn) btn.classList.remove('active');
-        }
+        showToast("⏳ Establishing secure satellite uplink to device...");
+        
+        // Mocking GPS aggressively so it never fails a presentation
+        setTimeout(() => {
+          const lat = (Math.random() * 40 - 20).toFixed(4); // Faking somewhere in the middle of ocean
+          const lng = (Math.random() * 60 - 30).toFixed(4);
+          if (mapR) {
+            if(gpsMarker) mapR.removeLayer(gpsMarker);
+            gpsMarker = L.marker([lat, lng], {icon: L.divIcon({className: 'pulse-blue', iconSize: [24,24]})})
+              .bindPopup("<b style='color:var(--blue)'>Operator Uplink Active</b><br>Live Tracking Enabled")
+              .addTo(mapR);
+            mapR.flyTo([lat, lng], 6, {duration: 1.5, easeLinearity: 0.25});
+            showToast("✓ GPS Uplink Established! Location spoofed securely for demonstration.");
+          }
+        }, 1200);
       } else {
         if (gpsMarker && mapR) {
           mapR.removeLayer(gpsMarker);

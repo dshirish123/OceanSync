@@ -75,15 +75,43 @@ async function seedDatabase() {
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
   if (fs.existsSync(DB_PATH)) return;
 
-  console.log('[DB] Seeding local JSON database...');
+  console.log('[DB] Seeding massive local JSON database...');
   const hashedPassword = await bcrypt.hash('admin', 10);
+  
+  // Generator Functions
+  const rLat = () => (Math.random() * 120 - 60).toFixed(2);
+  const rLng = () => (Math.random() * 360 - 180).toFixed(2);
+  const rNum = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
+  
+  const sensors = Array.from({length: 24}, (_, i) => ({
+    id: `Buoy-${i+100}`, lat: rLat(), lng: rLng(), 
+    pollution: parseInt(rNum(10, 95)), sst: parseFloat(rNum(15, 32)), 
+    benthic: parseFloat(rNum(2, 6)), pressure: parseInt(rNum(3000, 6000))
+  }));
+
+  const vendorNames = ['OceanClear Logistics', 'TideSweepers Inc', 'DeepBlue Recovery', 'AquaSalvage', 'Global Grid Collectors'];
+  const vessels = Array.from({length: 18}, (_, i) => ({
+    id: `V-${i+10}`, name: vendorNames[i%5] + ' ' + (i+1),
+    type: i%3===0 ? 'Waste Extractor' : 'Scrap Hauler',
+    lat: rLat(), lng: rLng(), heading: parseInt(rNum(0, 360)), speed: parseFloat(rNum(6, 18)), isDark: false
+  }));
+
+  const matTypes = ['Plastic Debris Gyre', 'Ghost Nets Accumulation', 'Timber/Log Debris', 'Scrap Metal Deposit', 'Chemical Absorbents'];
+  const severities = ['Moderate', 'Heavy', 'Critical', 'Massive'];
+  const threats = Array.from({length: 12}, (_, i) => ({
+    id: `J-${1000+i}`, type: matTypes[Math.floor(Math.random()*matTypes.length)],
+    severity: severities[Math.floor(Math.random()*severities.length)],
+    description: `Satellite detected major surface anomaly. Vendor dispatch required immediately.`,
+    lat: rLat(), lng: rLng(), timestamp: new Date(Date.now() - Math.random() * 100000000).toISOString()
+  }));
+
   const seed = {
     admin: { username: 'admin', password: hashedPassword, role: 'operator', credits: 0 },
-    sensors: [ { id: 'S01', lat: 15.0, lng: -40.0, pollution: 30, sst: 24.1, benthic: 3.2, pressure: 4100 } ],
-    vessels: [ { id: 'V1', name: 'Spirit', type: 'Cargo', lat: 22, lng: -40, heading: 90, speed: 14.5, isDark: false } ],
-    threats: [ { id: 'T1', type: 'Plastic Debris Gyre', severity: 'Heavy', description: 'Dense surface level plastics detected by satellite.', lat: 0, lng: 5, timestamp: new Date() } ],
+    sensors,
+    vessels,
+    threats,
     history: { '2026': { plasticDensity: 88, avgSST: 28.5, threatCount: 84 } },
-    reports: [ { id: 'R1', title: 'Intelligence Log', date: '2026-04-01', size: '12 MB' } ]
+    reports: [ { id: 'R1', title: 'Global Grid Intelligence Dump', date: '2026-04-02', size: '142 MB' } ]
   };
   writeDB(seed);
 }

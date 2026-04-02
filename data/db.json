@@ -1,42 +1,518 @@
 {
   "admin": {
     "username": "admin",
-    "password": "$2a$10$yFatSWA/4FsfjW.tgN4.j.6x0MX0MpSMD5iSfxQRML5GMfOWXCOQ.",
+    "password": "$2a$10$P/wqNBFfFL.CWXTfgMm26uTu1yHJSHsJpsORhZvukfNQVjR5zmVx.",
     "role": "operator",
     "credits": 0
   },
   "sensors": [
     {
-      "id": "S01",
-      "lat": 15,
-      "lng": -40,
-      "pollution": 30,
-      "sst": 24.1,
+      "id": "Buoy-100",
+      "lat": "-25.59",
+      "lng": "-143.60",
+      "pollution": 91,
+      "sst": 15.2,
+      "benthic": 3.8,
+      "pressure": 3237
+    },
+    {
+      "id": "Buoy-101",
+      "lat": "56.16",
+      "lng": "24.87",
+      "pollution": 81,
+      "sst": 24.4,
+      "benthic": 5.4,
+      "pressure": 3136
+    },
+    {
+      "id": "Buoy-102",
+      "lat": "18.01",
+      "lng": "-105.00",
+      "pollution": 65,
+      "sst": 28.9,
       "benthic": 3.2,
-      "pressure": 4100
+      "pressure": 3146
+    },
+    {
+      "id": "Buoy-103",
+      "lat": "35.16",
+      "lng": "47.18",
+      "pollution": 87,
+      "sst": 18.9,
+      "benthic": 5.6,
+      "pressure": 4407
+    },
+    {
+      "id": "Buoy-104",
+      "lat": "-59.37",
+      "lng": "-127.45",
+      "pollution": 68,
+      "sst": 25.8,
+      "benthic": 2.8,
+      "pressure": 4413
+    },
+    {
+      "id": "Buoy-105",
+      "lat": "2.55",
+      "lng": "178.70",
+      "pollution": 28,
+      "sst": 22.2,
+      "benthic": 5.6,
+      "pressure": 5484
+    },
+    {
+      "id": "Buoy-106",
+      "lat": "-18.08",
+      "lng": "-103.98",
+      "pollution": 79,
+      "sst": 17.3,
+      "benthic": 2.8,
+      "pressure": 5561
+    },
+    {
+      "id": "Buoy-107",
+      "lat": "48.49",
+      "lng": "-152.56",
+      "pollution": 94,
+      "sst": 27,
+      "benthic": 5.4,
+      "pressure": 3653
+    },
+    {
+      "id": "Buoy-108",
+      "lat": "-57.70",
+      "lng": "-15.02",
+      "pollution": 38,
+      "sst": 21.9,
+      "benthic": 2.3,
+      "pressure": 5777
+    },
+    {
+      "id": "Buoy-109",
+      "lat": "0.78",
+      "lng": "-40.86",
+      "pollution": 83,
+      "sst": 20.4,
+      "benthic": 3.3,
+      "pressure": 3748
+    },
+    {
+      "id": "Buoy-110",
+      "lat": "-50.44",
+      "lng": "-67.44",
+      "pollution": 68,
+      "sst": 30.6,
+      "benthic": 5.9,
+      "pressure": 5765
+    },
+    {
+      "id": "Buoy-111",
+      "lat": "-13.93",
+      "lng": "36.82",
+      "pollution": 41,
+      "sst": 28.3,
+      "benthic": 2.4,
+      "pressure": 5339
+    },
+    {
+      "id": "Buoy-112",
+      "lat": "14.12",
+      "lng": "156.38",
+      "pollution": 17,
+      "sst": 20.5,
+      "benthic": 3.6,
+      "pressure": 4847
+    },
+    {
+      "id": "Buoy-113",
+      "lat": "-26.01",
+      "lng": "-35.16",
+      "pollution": 51,
+      "sst": 20,
+      "benthic": 5.3,
+      "pressure": 4704
+    },
+    {
+      "id": "Buoy-114",
+      "lat": "-58.14",
+      "lng": "-84.37",
+      "pollution": 94,
+      "sst": 20.1,
+      "benthic": 3.4,
+      "pressure": 3997
+    },
+    {
+      "id": "Buoy-115",
+      "lat": "50.78",
+      "lng": "-85.52",
+      "pollution": 51,
+      "sst": 30.4,
+      "benthic": 4.5,
+      "pressure": 4582
+    },
+    {
+      "id": "Buoy-116",
+      "lat": "35.46",
+      "lng": "-168.17",
+      "pollution": 12,
+      "sst": 25.8,
+      "benthic": 5,
+      "pressure": 4184
+    },
+    {
+      "id": "Buoy-117",
+      "lat": "39.05",
+      "lng": "0.36",
+      "pollution": 20,
+      "sst": 28.3,
+      "benthic": 5.8,
+      "pressure": 3923
+    },
+    {
+      "id": "Buoy-118",
+      "lat": "54.19",
+      "lng": "-69.31",
+      "pollution": 19,
+      "sst": 16.8,
+      "benthic": 3.1,
+      "pressure": 4061
+    },
+    {
+      "id": "Buoy-119",
+      "lat": "-39.28",
+      "lng": "133.29",
+      "pollution": 57,
+      "sst": 24.1,
+      "benthic": 3.8,
+      "pressure": 5419
+    },
+    {
+      "id": "Buoy-120",
+      "lat": "-6.66",
+      "lng": "103.26",
+      "pollution": 55,
+      "sst": 18.9,
+      "benthic": 5.2,
+      "pressure": 4670
+    },
+    {
+      "id": "Buoy-121",
+      "lat": "42.47",
+      "lng": "-79.77",
+      "pollution": 65,
+      "sst": 30.9,
+      "benthic": 4.6,
+      "pressure": 5760
+    },
+    {
+      "id": "Buoy-122",
+      "lat": "-27.17",
+      "lng": "143.14",
+      "pollution": 15,
+      "sst": 29.7,
+      "benthic": 4.8,
+      "pressure": 3262
+    },
+    {
+      "id": "Buoy-123",
+      "lat": "-32.38",
+      "lng": "75.68",
+      "pollution": 39,
+      "sst": 17.1,
+      "benthic": 2.6,
+      "pressure": 3792
     }
   ],
   "vessels": [
     {
-      "id": "V1",
-      "name": "Spirit",
-      "type": "Cargo",
-      "lat": 22,
-      "lng": -40,
-      "heading": 90,
-      "speed": 14.5,
+      "id": "V-10",
+      "name": "OceanClear Logistics 1",
+      "type": "Waste Extractor",
+      "lat": "14.85",
+      "lng": "22.28",
+      "heading": 126,
+      "speed": 17.3,
+      "isDark": false
+    },
+    {
+      "id": "V-11",
+      "name": "TideSweepers Inc 2",
+      "type": "Scrap Hauler",
+      "lat": "-27.54",
+      "lng": "-65.82",
+      "heading": 326,
+      "speed": 6.5,
+      "isDark": false
+    },
+    {
+      "id": "V-12",
+      "name": "DeepBlue Recovery 3",
+      "type": "Scrap Hauler",
+      "lat": "45.02",
+      "lng": "-98.91",
+      "heading": 197,
+      "speed": 9.4,
+      "isDark": false
+    },
+    {
+      "id": "V-13",
+      "name": "AquaSalvage 4",
+      "type": "Waste Extractor",
+      "lat": "-11.54",
+      "lng": "13.50",
+      "heading": 114,
+      "speed": 17.7,
+      "isDark": false
+    },
+    {
+      "id": "V-14",
+      "name": "Global Grid Collectors 5",
+      "type": "Scrap Hauler",
+      "lat": "32.25",
+      "lng": "90.57",
+      "heading": 282,
+      "speed": 13.9,
+      "isDark": false
+    },
+    {
+      "id": "V-15",
+      "name": "OceanClear Logistics 6",
+      "type": "Scrap Hauler",
+      "lat": "-42.50",
+      "lng": "-135.45",
+      "heading": 114,
+      "speed": 14.3,
+      "isDark": false
+    },
+    {
+      "id": "V-16",
+      "name": "TideSweepers Inc 7",
+      "type": "Waste Extractor",
+      "lat": "-7.93",
+      "lng": "57.47",
+      "heading": 14,
+      "speed": 15.5,
+      "isDark": false
+    },
+    {
+      "id": "V-17",
+      "name": "DeepBlue Recovery 8",
+      "type": "Scrap Hauler",
+      "lat": "-22.03",
+      "lng": "-49.34",
+      "heading": 355,
+      "speed": 6.5,
+      "isDark": false
+    },
+    {
+      "id": "V-18",
+      "name": "AquaSalvage 9",
+      "type": "Scrap Hauler",
+      "lat": "-12.04",
+      "lng": "112.84",
+      "heading": 202,
+      "speed": 8.5,
+      "isDark": false
+    },
+    {
+      "id": "V-19",
+      "name": "Global Grid Collectors 10",
+      "type": "Waste Extractor",
+      "lat": "28.15",
+      "lng": "39.33",
+      "heading": 222,
+      "speed": 9.7,
+      "isDark": false
+    },
+    {
+      "id": "V-20",
+      "name": "OceanClear Logistics 11",
+      "type": "Scrap Hauler",
+      "lat": "-40.60",
+      "lng": "164.26",
+      "heading": 37,
+      "speed": 6.6,
+      "isDark": false
+    },
+    {
+      "id": "V-21",
+      "name": "TideSweepers Inc 12",
+      "type": "Scrap Hauler",
+      "lat": "-4.37",
+      "lng": "-33.99",
+      "heading": 88,
+      "speed": 6.2,
+      "isDark": false
+    },
+    {
+      "id": "V-22",
+      "name": "DeepBlue Recovery 13",
+      "type": "Waste Extractor",
+      "lat": "10.56",
+      "lng": "44.51",
+      "heading": 273,
+      "speed": 9.5,
+      "isDark": false
+    },
+    {
+      "id": "V-23",
+      "name": "AquaSalvage 14",
+      "type": "Scrap Hauler",
+      "lat": "-50.23",
+      "lng": "161.01",
+      "heading": 107,
+      "speed": 14,
+      "isDark": false
+    },
+    {
+      "id": "V-24",
+      "name": "Global Grid Collectors 15",
+      "type": "Scrap Hauler",
+      "lat": "35.81",
+      "lng": "-47.71",
+      "heading": 120,
+      "speed": 13.9,
+      "isDark": false
+    },
+    {
+      "id": "V-25",
+      "name": "OceanClear Logistics 16",
+      "type": "Waste Extractor",
+      "lat": "31.26",
+      "lng": "-93.93",
+      "heading": 299,
+      "speed": 7.7,
+      "isDark": false
+    },
+    {
+      "id": "V-26",
+      "name": "TideSweepers Inc 17",
+      "type": "Scrap Hauler",
+      "lat": "49.22",
+      "lng": "125.08",
+      "heading": 173,
+      "speed": 14.8,
+      "isDark": false
+    },
+    {
+      "id": "V-27",
+      "name": "DeepBlue Recovery 18",
+      "type": "Scrap Hauler",
+      "lat": "49.32",
+      "lng": "44.44",
+      "heading": 281,
+      "speed": 10.5,
       "isDark": false
     }
   ],
   "threats": [
     {
-      "id": "T1",
+      "id": "J-1000",
       "type": "Plastic Debris Gyre",
+      "severity": "Massive",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "-4.17",
+      "lng": "-94.24",
+      "timestamp": "2026-04-01T08:42:45.435Z"
+    },
+    {
+      "id": "J-1001",
+      "type": "Ghost Nets Accumulation",
       "severity": "Heavy",
-      "description": "Dense surface level plastics detected by satellite.",
-      "lat": 0,
-      "lng": 5,
-      "timestamp": "2026-04-02T01:32:12.253Z"
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "-31.54",
+      "lng": "12.27",
+      "timestamp": "2026-04-01T06:06:31.972Z"
+    },
+    {
+      "id": "J-1002",
+      "type": "Scrap Metal Deposit",
+      "severity": "Heavy",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "9.46",
+      "lng": "-123.14",
+      "timestamp": "2026-04-01T11:32:49.973Z"
+    },
+    {
+      "id": "J-1003",
+      "type": "Chemical Absorbents",
+      "severity": "Heavy",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "9.56",
+      "lng": "-52.29",
+      "timestamp": "2026-04-01T16:39:54.706Z"
+    },
+    {
+      "id": "J-1004",
+      "type": "Timber/Log Debris",
+      "severity": "Heavy",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "-6.71",
+      "lng": "62.77",
+      "timestamp": "2026-04-01T05:52:50.328Z"
+    },
+    {
+      "id": "J-1005",
+      "type": "Scrap Metal Deposit",
+      "severity": "Heavy",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "7.22",
+      "lng": "143.22",
+      "timestamp": "2026-04-01T12:28:46.634Z"
+    },
+    {
+      "id": "J-1006",
+      "type": "Ghost Nets Accumulation",
+      "severity": "Massive",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "-53.15",
+      "lng": "-75.84",
+      "timestamp": "2026-04-01T12:19:30.580Z"
+    },
+    {
+      "id": "J-1007",
+      "type": "Chemical Absorbents",
+      "severity": "Moderate",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "26.01",
+      "lng": "124.28",
+      "timestamp": "2026-04-01T15:41:45.405Z"
+    },
+    {
+      "id": "J-1008",
+      "type": "Timber/Log Debris",
+      "severity": "Moderate",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "-19.05",
+      "lng": "157.40",
+      "timestamp": "2026-04-01T00:59:16.680Z"
+    },
+    {
+      "id": "J-1009",
+      "type": "Ghost Nets Accumulation",
+      "severity": "Heavy",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "59.64",
+      "lng": "76.39",
+      "timestamp": "2026-04-01T11:08:12.331Z"
+    },
+    {
+      "id": "J-1010",
+      "type": "Timber/Log Debris",
+      "severity": "Massive",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "-30.60",
+      "lng": "104.64",
+      "timestamp": "2026-04-01T20:27:38.997Z"
+    },
+    {
+      "id": "J-1011",
+      "type": "Timber/Log Debris",
+      "severity": "Moderate",
+      "description": "Satellite detected major surface anomaly. Vendor dispatch required immediately.",
+      "lat": "18.03",
+      "lng": "-26.81",
+      "timestamp": "2026-04-01T06:02:53.515Z"
     }
   ],
   "history": {
@@ -49,9 +525,9 @@
   "reports": [
     {
       "id": "R1",
-      "title": "Intelligence Log",
-      "date": "2026-04-01",
-      "size": "12 MB"
+      "title": "Global Grid Intelligence Dump",
+      "date": "2026-04-02",
+      "size": "142 MB"
     }
   ]
 }
