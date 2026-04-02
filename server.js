@@ -99,14 +99,25 @@ async function seedDatabase() {
     totalPayout: parseInt(rNum(100, 15000))
   }));
 
-  const matTypes = ['Plastic Debris Gyre', 'Ghost Nets Accumulation', 'Timber/Log Debris', 'Scrap Metal Deposit', 'Chemical Absorbents'];
+  const matTypes = [
+    { type: 'Plastic Debris Gyre', source: 'Orbital Satellite (Surface)' },
+    { type: 'Chemical Absorbents', source: 'Orbital Satellite (Surface)' },
+    { type: 'Ghost Nets Accumulation', source: 'Benthic IoT Buoy (Depth Sonar)' },
+    { type: 'Scrap Metal Deposit', source: 'Benthic IoT Buoy (Depth Sonar)' },
+    { type: 'Timber/Log Debris', source: 'Orbital Satellite (Surface)' }
+  ];
   const severities = ['Moderate', 'Heavy', 'Critical', 'Massive'];
-  const threats = Array.from({length: 12}, (_, i) => ({
-    id: `J-${1000+i}`, type: matTypes[Math.floor(Math.random()*matTypes.length)],
-    severity: severities[Math.floor(Math.random()*severities.length)],
-    description: `Satellite detected major surface anomaly. Awaiting vendor dispatch via mobile app.`,
-    lat: rLat(), lng: rLng(), timestamp: new Date(Date.now() - Math.random() * 100000000).toISOString()
-  }));
+  const threats = Array.from({length: 12}, (_, i) => {
+    const mat = matTypes[Math.floor(Math.random()*matTypes.length)];
+    return {
+      id: `J-${1000+i}`, 
+      type: mat.type,
+      source: mat.source,
+      severity: severities[Math.floor(Math.random()*severities.length)],
+      description: `Target verified by ${mat.source === 'Orbital Satellite (Surface)' ? 'visual/NIR bands' : 'submerged acoustic pings'}. Awaiting mobile vendor dispatch.`,
+      lat: rLat(), lng: rLng(), timestamp: new Date(Date.now() - Math.random() * 100000000).toISOString()
+    };
+  });
 
   const seed = {
     admin: { username: 'admin', password: hashedPassword, role: 'operator', credits: 0 },
