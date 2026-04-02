@@ -81,7 +81,7 @@ async function seedDatabase() {
     admin: { username: 'admin', password: hashedPassword, role: 'operator', credits: 0 },
     sensors: [ { id: 'S01', lat: 15.0, lng: -40.0, pollution: 30, sst: 24.1, benthic: 3.2, pressure: 4100 } ],
     vessels: [ { id: 'V1', name: 'Spirit', type: 'Cargo', lat: 22, lng: -40, heading: 90, speed: 14.5, isDark: false } ],
-    threats: [ { id: 'T1', type: 'Spill', severity: 'Critical', description: 'Anomaly detected', lat: 0, lng: 5, timestamp: new Date() } ],
+    threats: [ { id: 'T1', type: 'Plastic Debris Gyre', severity: 'Heavy', description: 'Dense surface level plastics detected by satellite.', lat: 0, lng: 5, timestamp: new Date() } ],
     history: { '2026': { plasticDensity: 88, avgSST: 28.5, threatCount: 84 } },
     reports: [ { id: 'R1', title: 'Intelligence Log', date: '2026-04-01', size: '12 MB' } ]
   };

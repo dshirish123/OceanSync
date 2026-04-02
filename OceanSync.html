@@ -13,10 +13,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
-      --bg:#000;--panel:#0A0A0A;--panel-border:rgba(255,255,255,0.08);
-      --text:#F0F0F0;--text-muted:#888;--font-main:'Inter',-apple-system,sans-serif;
-      --font-mono:'JetBrains Mono',monospace;--blue:#0070F3;--red:#E00;
-      --orange:#F5A623;--green:#10B981;--shadow:0 4px 24px rgba(0,0,0,0.8);
+      --bg:#020b14;--panel:#061423;--panel-border:rgba(0,212,255,0.15);
+      --text:#E0F4FF;--text-muted:#8AB4F8;--font-main:'Inter',-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',monospace;--blue:#00D4FF;--red:#FF4B4B;
+      --orange:#F5A623;--green:#00E676;--shadow:0 4px 24px rgba(0,30,60,0.8);
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:var(--font-main);height:100vh;overflow:hidden;display:flex;font-size:14px;-webkit-font-smoothing:antialiased}
@@ -160,7 +160,7 @@
     <div class="login-right">
       <div class="login-box">
         <h1>OceanSync</h1>
-        <p style="color:var(--text-muted);font-size:.9rem">Secure Marine Intelligence Platform</p>
+        <p style="color:var(--text-muted);font-size:.9rem">Satellite Resource & Vendor Dispatch Platform</p>
         
         <button class="btn-bio" onclick="doBiometric()">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 11c0 3.517-1.009 6.799-2.753 9.571M4.002 18.895C5.128 16.159 6 12.731 6 11a6 6 0 0112 0c0 .083 0 .166-.003.249M16.754 20.857C15.726 18.388 15 15.132 15 11a3 3 0 00-6 0M12 11a1 1 0 01-1 1M9 15.513C9.612 13.587 10 11.612 10 11"/></svg>
@@ -187,7 +187,7 @@
       <button class="nav-btn" onclick="switchPage('view-analytics',this)">Telemetry Data</button>
       <button class="nav-btn" onclick="switchPage('view-reports',this)">Export Hub</button>
       <div class="nav-label">Analysis</div>
-      <button class="nav-btn" onclick="switchPage('view-threats',this)">Threat Matrix <span class="badge" id="nav-threat-count">0</span></button>
+      <button class="nav-btn" onclick="switchPage('view-threats',this)">Dispatch Matrix <span class="badge" id="nav-threat-count">0</span></button>
       <button class="nav-btn" onclick="switchPage('view-history',this)">Historical Timeline</button>
       <div class="nav-label">Settings</div>
       <button class="nav-btn" onclick="switchPage('view-config',this)">System Config</button>
@@ -218,11 +218,15 @@
       <!-- RADAR -->
       <div id="view-radar" class="page active">
         <h2>Overview Radar</h2><p class="subtitle">Real-time geographical tracking and marine anomalies.</p>
+        <div style="display:flex;gap:12px;margin-bottom:16px;">
+          <input type="text" id="sat-gps-input" class="login-input" style="flex:1" placeholder="Enter GPS Sector (e.g., 20.5, -45.1) or leave blank to auto-scan">
+          <button class="btn-bio" onclick="scanSatellite()"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20m10-10H2M12 7a5 5 0 100 10 5 5 0 000-10z"/></svg> Trigger Satellite Scan</button>
+        </div>
         <div class="stats-row">
           <div class="stat-card glass"><div class="stat-title">Avg SST</div><div class="stat-value" id="s-sst">—</div></div>
           <div class="stat-card glass"><div class="stat-title">Active Buoys</div><div class="stat-value" id="s-buoys">—</div></div>
           <div class="stat-card glass"><div class="stat-title">AIS Tracks</div><div class="stat-value" id="s-vessels">—</div></div>
-          <div class="stat-card glass"><div class="stat-title">Open Threats</div><div class="stat-value" id="s-threats">—</div></div>
+          <div class="stat-card glass"><div class="stat-title">Open Jobs</div><div class="stat-value" id="s-threats">—</div></div>
         </div>
         <div class="radar-container">
           <div class="map-wrapper glass">
@@ -283,7 +287,7 @@
 
       <!-- THREATS -->
       <div id="view-threats" class="page">
-        <h2>Threat Matrix</h2><p class="subtitle">Review and resolve live anomalies. Earn credits for awareness.</p>
+        <h2>Vendor Dispatch Matrix</h2><p class="subtitle">Assign local vendors to collect satellite-detected surface materials. Earn eco-credits.</p>
         <div class="filter-bar">
           <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
           <button class="filter-btn" onclick="setFilter('Critical',this)">Critical</button>
@@ -503,7 +507,7 @@
             <div style="color:var(--text-muted);font-size:.85rem;margin-bottom:12px">${t.description}</div>
             <div style="font-family:var(--font-mono);font-size:.75rem;color:#555">[${t.lat}, ${t.lng}] • ${new Date(t.timestamp).toLocaleString()}</div>
           </div>
-          <button class="btn-secondary" onclick="resolveThreat('${t.id}',this)">Resolve</button>`;
+          <button class="btn-bio" style="font-size:0.8rem;padding:8px 16px" onclick="resolveThreat('${t.id}',this)">Dispatch Vendor</button>`;
         list.appendChild(el);
       });
     }
@@ -516,7 +520,7 @@
         allThreats=allThreats.filter(t=>t.id!==id);
         renderThreats();
         document.getElementById('credit-score').innerText=data.credits;
-        showToast('✓ +50 Credits Awarded — Thank you for protecting the oceans!');
+        showToast('✓ Local vendor dispatched! +50 Eco-Credits Awarded.');
       },400);
     }
 
@@ -667,6 +671,41 @@
       }
     }
 
+    async function scanSatellite() {
+      const coord = document.getElementById('sat-gps-input').value;
+      if(!coord) { showToast('📡 Satellite repositioning... Auto-scanning open grid.'); }
+      else { showToast('📡 Satellite repositioning... Scanning sector ' + coord); }
+      
+      setTimeout(() => {
+        const latlng = coord.split(',');
+        const lat = (latlng[0] && !isNaN(parseFloat(latlng[0]))) ? parseFloat(latlng[0].trim()) : (Math.random()*40-20).toFixed(2);
+        const lng = (latlng[1] && !isNaN(parseFloat(latlng[1]))) ? parseFloat(latlng[1].trim()) : (Math.random()*60-30).toFixed(2);
+        
+        const materials = ['Floating Plastics', 'Ghost Nets', 'Timber Scrap', 'Chemical Absorbents', 'Scrap Metal'];
+        const type = materials[Math.floor(Math.random()*materials.length)];
+        
+        const newJob = {
+          id: 'J'+Date.now().toString().slice(-4),
+          type: type,
+          severity: 'Moderate',
+          description: 'Satellite confirmed surface material for vendor retrieval.',
+          lat: lat,
+          lng: lng,
+          timestamp: new Date().toISOString()
+        };
+        allThreats.unshift(newJob);
+        renderThreats();
+        showToast('✓ Scan Complete: New material logistics job generated.');
+        
+        if(mapR) {
+          L.marker([lat, lng], {icon: L.divIcon({className: 'pulse-orange', iconSize: [16,16]})})
+          .bindPopup(`<b>${type}</b><br>Awaiting Vendor Dispatch`)
+          .addTo(mapR);
+          mapR.flyTo([lat, lng], 5);
+        }
+      }, 2500);
+    }
   </script>
 </body>
+
 </html>
